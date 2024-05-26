@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <iostream>
 
 #define MYPORT 3490 // Dinlenecek port numarası
 #define BACKLOG 10 // Bekleme kuyruğu uzunluğu
@@ -18,7 +19,7 @@ int main() {
     socklen_t sin_size;
     int yes = 1;
     char buffer[BUFFER_SIZE];
-    const char *response = "Merhaba İstemci!";
+    const char *response = "Merhaba Ifmai!";
 
     // Soket oluşturma
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
@@ -76,10 +77,18 @@ int main() {
         printf("İstemciden gelen mesaj: %s\n", buffer);
 
         // İstemciye yanıt gönderme
-        if (send(new_fd, response, strlen(response), 0) == -1) {
-            perror("send");
+        std::cout << "Mesaj [0] : " << buffer[0] << std::endl;
+        if(buffer[0] == 'N'){
+            if (send(new_fd, response, strlen(response), 0) == -1) {
+                perror("send");
+            }
         }
-
+        else{
+            const char *response2 = "Merhaba Yabancı.";
+            if (send(new_fd, response2, strlen(response2), 0) == -1) {
+                perror("send");
+            }
+        }
         // Bağlantıyı kapatma
         close(new_fd);
     }
