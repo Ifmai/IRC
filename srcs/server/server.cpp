@@ -43,7 +43,7 @@ static void serverConfig(t_IRC_DATA *data){
 
 void ircStart(t_IRC_DATA *data){
 	serverConfig(data);
-	std::map<int, User> clientList; // pair kaynaklı list'e çevrilebilir.
+	std::map<int, User> clientList; // pair 1998 de çıkarılmıştır 98 standardında geçerlidir.
 	//std::list<Channel> channelList;
 	while(true){
 		data->readFds = data->masterFds; // kopyalıyoruz çünkü select bozuyor işlem yaparken.
