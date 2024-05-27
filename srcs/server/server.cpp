@@ -9,16 +9,16 @@ static void serverConfig(t_IRC_DATA *data){
     	perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
+	if(fcntl(data->serverSocket, F_SETFL, O_NONBLOCK) == -1){
+		perror("fcntl F_SETFL");
+		exit(EXIT_FAILURE);
+	}
 	data->serverAddr.sin_family = AF_INET;
 	data->serverAddr.sin_addr.s_addr = INADDR_ANY;
 	data->serverAddr.sin_port = htons(data->port);
 	memset(&(data->serverAddr.sin_zero), '\0', 8);
 	if(bind(data->serverSocket, (struct sockaddr *)&data->serverAddr, sizeof(data->serverAddr)) == -1){
 		perror("bind");
-		exit(EXIT_FAILURE);
-	}
-	if(fcntl(data->serverSocket, F_SETFL, O_NONBLOCK) == -1){
-		perror("fcntl F_SETFL");
 		exit(EXIT_FAILURE);
 	}
 	if(listen(data->serverSocket, BACKLOG) == -1){
