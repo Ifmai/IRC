@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 
+#include "User.hpp"
 
 #define BACKLOG 100
 #define BUFFER_SIZE 1024
@@ -28,6 +29,9 @@ typedef struct s_IRC
 	int					nbytes; //recv buffer string len.
 	int					serverSocket; // server socket.
 	int					newClientSocket; // new user.
+
+	std::map<int, User>::iterator	userIT;
+	//std::list<Channel>::iterator	channelIT;
 }						t_IRC_DATA;
 
 //Start Config
@@ -36,6 +40,6 @@ void fillData(t_IRC_DATA *data, std::string passwordInput);
 
 //IRC
 void ircStart(t_IRC_DATA *data);
-void newUserAdd(t_IRC_DATA *data);
-void msgHandle(t_IRC_DATA *data, int userFD);
+void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList);
+void handleClientRequest(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
 #endif

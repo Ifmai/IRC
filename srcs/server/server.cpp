@@ -28,10 +28,23 @@ static void serverConfig(t_IRC_DATA *data){
 	FD_SET(data->serverSocket, &data->masterFds); 
 	data->fdMax = data->serverSocket; // so far, it’s this one
 	std::cout << "Server is listening on port \"" << data->port << "\"" << std::endl;
+	std::cout << "Print Start Log." << std::endl;
+	std::cout << "----------------" << std::endl;
 }
+
+/* void	printList(std::map<int, User> list){
+	std::map<int, User>::iterator it = list.begin();
+	while(it != list.end()){
+		std::cout << "["<< it->first << "] : " << it->second.getClientSocket() << std::endl;
+		it++;
+	}
+}
+ */
 
 void ircStart(t_IRC_DATA *data){
 	serverConfig(data);
+	std::map<int, User> clientList; // pair kaynaklı list'e çevrilebilir.
+	//std::list<Channel> channelList;
 	while(true){
 		data->readFds = data->masterFds; // kopyalıyoruz çünkü select bozuyor işlem yaparken.
 		if(select(data->fdMax+1, &data->readFds, NULL, NULL, NULL) == -1){
@@ -41,9 +54,9 @@ void ircStart(t_IRC_DATA *data){
 		for(int i = 0; i <= data->fdMax; i++){
 			if(FD_ISSET(i, &data->readFds)){
 				if(i == data->serverSocket)
-					newUserAdd(data);
+					newUserAdd(data, clientList);
 				else
-					msgHandle(data, i);
+					handleClientRequest(data, i, clientList);
 			}
 		}
 	}

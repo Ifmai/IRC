@@ -3,10 +3,11 @@ FLAG = -Wall -Wextra -Werror
 Name = IRC
 SRC = ./srcs/main.cpp \
 	  ./srcs/server/server.cpp \
-	  ./srcs/server/newUser.cpp \
-	  ./srcs/server/msgHandle.cpp \
-	  ./srcs/generalUtils/fillData.cpp \
-	  ./srcs/generalUtils/inputCheck.cpp
+	  ./srcs/server/newUserHandle.cpp \
+	  ./srcs/server/clientHandle.cpp \
+	  ./srcs/mainUtils/fillData.cpp \
+	  ./srcs/mainUtils/inputCheck.cpp \
+	  ./srcs/user/User.cpp
 all: $(Name)
 
 $(Name): $(SRC)
