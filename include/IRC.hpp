@@ -13,7 +13,13 @@
 #include "User.hpp"
 
 #define BACKLOG 100
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 512
+
+typedef struct s_token{
+	std::string	command;
+	std::string	x;
+}				t_token;
+
 typedef struct s_IRC
 {
 	fd_set				readFds; // select for while.

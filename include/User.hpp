@@ -37,6 +37,4 @@ class User{
 		
 };
 
-//std::map<int, User>::iterator getUser(int clientSocket, std::map<int, User> &clientList);
-
 #endif

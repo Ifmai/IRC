@@ -88,14 +88,3 @@ void User::setName(int nameType, std::string inputName){
 			break;
 	}
 }
-
-/* std::map<int, User>::iterator getUser(int clientSocket, std::map<int, User> &clientList){
-	std::list<User>::iterator it = clientList.begin();
-	while(it != clientList.end()){
-		if(it->getClientSocket() == clientSocket)
-			return it;
-		else
-			it++;
-	}
-	return clientList.end();
-} */

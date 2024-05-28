@@ -14,10 +14,9 @@ void handleClientRequest(t_IRC_DATA *data, int userFD, std::map<int, User> &clie
 		clientList.erase(clientList.find(userFD));
 	}
 	else{
-
+		
 	}
 }
-
 
 
 
