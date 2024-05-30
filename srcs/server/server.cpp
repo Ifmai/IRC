@@ -51,12 +51,12 @@ void ircStart(t_IRC_DATA *data){
 			perror("select");
 			exit(EXIT_FAILURE);
 		}
-		for(int i = 0; i <= data->fdMax; i++){
-			if(FD_ISSET(i, &data->readFds)){
-				if(i == data->serverSocket)
+		for(int fd = 0; fd <= data->fdMax; fd++){
+			if(FD_ISSET(fd, &data->readFds)){
+				if(fd == data->serverSocket)
 					newUserAdd(data, clientList);
 				else
-					handleClientRequest(data, i, clientList);
+					handleClient(data, fd, clientList);
 			}
 		}
 	}

@@ -4,10 +4,12 @@ Name = IRC
 SRC = ./srcs/main.cpp \
 	  ./srcs/server/server.cpp \
 	  ./srcs/server/newUserHandle.cpp \
-	  ./srcs/server/clientHandle.cpp \
-	  ./srcs/mainUtils/fillData.cpp \
-	  ./srcs/mainUtils/inputCheck.cpp \
-	  ./srcs/user/User.cpp
+	  ./srcs/argCheck/fillData.cpp \
+	  ./srcs/argCheck/inputCheck.cpp \
+	  ./srcs/Client/handleClient.cpp \
+	  ./srcs/Client/User.cpp \
+	  ./srcs/Command/nickCommand.cpp \
+	  ./srcs/Command/passCommand.cpp
 all: $(Name)
 
 $(Name): $(SRC)

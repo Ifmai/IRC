@@ -1,51 +1,58 @@
 #ifndef IRC_HPP
-#define IRC_HPP
+	#define IRC_HPP
 
-#include <iostream>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <fcntl.h>
+	#include <iostream>
+	#include <string.h>
+	#include <unistd.h>
+	#include <sys/types.h>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <fcntl.h>
+	#include <sstream>
 
-#include "User.hpp"
 
-#define BACKLOG 100
-#define BUFFER_SIZE 512
+	#include "User.hpp"
+	#include "Messages.hpp"
 
-typedef struct s_token{
-	std::string	command;
-	std::string	x;
-}				t_token;
+	#define BACKLOG 100
+	#define BUFFER_SIZE 512
 
-typedef struct s_IRC
-{
-	fd_set				readFds; // select for while.
-	fd_set				masterFds; // all user in.
-	struct sockaddr_in	serverAddr; // server adress info.
-	struct sockaddr_in	remoteAddr; // new user address info.
-	char				buff[BUFFER_SIZE]; // recv buffer string.
-	std::string			password; // connection password.
-	socklen_t			addrLen; // new user addr len.
-	int					yes; // for setsockopt()SO_REUSEADDR.
-	int					port; // connection port.
-	int 				fdMax; // select max fd number.
-	int					nbytes; //recv buffer string len.
-	int					serverSocket; // server socket.
-	int					newClientSocket; // new user.
+	typedef struct s_token{
+		std::string	command;
+		std::string	x;
+	}				t_token;
 
-	std::map<int, User>::iterator	userIT;
-	//std::list<Channel>::iterator	channelIT;
-}						t_IRC_DATA;
+	typedef struct s_IRC
+	{
+		fd_set				readFds; // select for while.
+		fd_set				masterFds; // all user in.
+		struct sockaddr_in	serverAddr; // server adress info.
+		struct sockaddr_in	remoteAddr; // new user address info.
+		char				buff[BUFFER_SIZE]; // recv buffer string.
+		std::string			password; // connection password.
+		socklen_t			addrLen; // new user addr len.
+		int					yes; // for setsockopt()SO_REUSEADDR.
+		int					port; // connection port.
+		int 				fdMax; // select max fd number.
+		int					nbytes; //recv buffer string len.
+		int					serverSocket; // server socket.
+		int					newClientSocket; // new user.
 
-//Start Config
-bool portCheck(t_IRC_DATA *data, std::string port);
-void fillData(t_IRC_DATA *data, std::string passwordInput);
+		std::map<int, User>::iterator	userIT;
+		//std::list<Channel>::iterator	channelIT;
+	}						t_IRC_DATA;
 
-//IRC
-void ircStart(t_IRC_DATA *data);
-void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList);
-void handleClientRequest(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
+	//Arguman Checking
+	bool portCheck(t_IRC_DATA *data, std::string port);
+	void fillData(t_IRC_DATA *data, std::string passwordInput);
+
+	//IRC
+	void ircStart(t_IRC_DATA *data);
+	void handleClient(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
+		void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList);
+		void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
+		void commandNick(std::istringstream &iss, User &client, std::map<int, User> &clientList);
+		void commandPass(std::istringstream &iss, User &client, std::map<int, User> &clientList, t_IRC_DATA *data);
+		void commandUser(std::istringstream &iss, User &client, std::map<int, User> &clientList);
 #endif
