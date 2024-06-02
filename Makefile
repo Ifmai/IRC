@@ -9,7 +9,8 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Client/handleClient.cpp \
 	  ./srcs/Client/User.cpp \
 	  ./srcs/Command/nickCommand.cpp \
-	  ./srcs/Command/passCommand.cpp
+	  ./srcs/Command/passCommand.cpp \
+	  ./srcs/Command/userCommand.cpp
 all: $(Name)
 
 $(Name): $(SRC)

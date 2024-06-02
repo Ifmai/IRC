@@ -10,7 +10,7 @@ void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientL
 	//Birde channelda varsa o listeden de silincek.
 }
 
-void handleClient(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList){
+void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList){
 	if((data->nbytes = recv(userFD, data->buff,sizeof(data->buff), 0)) <= 0){
 		if(data->nbytes == 0)
 			printf("select server: socket %d hung up\n", userFD);
@@ -25,11 +25,16 @@ void handleClient(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList)
 		std::string token;
 		while(iss >> token){
 			if(token == "PASS")
-				commandPass(iss, clientList.find(userFD)->second, clientList, data);
+				commandPass(iss, client, clientList, data);
 			else if(token == "NICK")
-				commandNick(iss, clientList.find(userFD)->second, clientList);
+				commandNick(iss, client, clientList);
 			else if(token == "USER")
-				commandUser(iss, clientList.find(userFD)->second, clientList);
+				commandUser(iss, client);
+			if(!client.getPassword().empty() && !client.getName(USER_NAME).empty() && !client.getName(USER_NICK_NAME).empty() && !client.getIsAuth()){
+				client.setIsAuth(true);
+				std::string loginMSG = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME));
+				send(client.getClientSocket(), loginMSG.c_str(), loginMSG.length(), 0);
+			}
 		}
 	}
 }

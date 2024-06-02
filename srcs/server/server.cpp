@@ -56,7 +56,7 @@ void ircStart(t_IRC_DATA *data){
 				if(fd == data->serverSocket)
 					newUserAdd(data, clientList);
 				else
-					handleClient(data, fd, clientList);
+					handleClient(data, fd, clientList.find(fd)->second, clientList);
 			}
 		}
 	}

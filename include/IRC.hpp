@@ -49,10 +49,10 @@
 
 	//IRC
 	void ircStart(t_IRC_DATA *data);
-	void handleClient(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
+	void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList);
 		void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList);
 		void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
 		void commandNick(std::istringstream &iss, User &client, std::map<int, User> &clientList);
 		void commandPass(std::istringstream &iss, User &client, std::map<int, User> &clientList, t_IRC_DATA *data);
-		void commandUser(std::istringstream &iss, User &client, std::map<int, User> &clientList);
+		void commandUser(std::istringstream &iss, User &client);
 #endif

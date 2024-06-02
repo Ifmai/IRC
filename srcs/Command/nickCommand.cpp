@@ -23,6 +23,7 @@ static bool nickUnique(std::string input, int clientFD, std::map<int, User> &cli
 			send(clientFD, errorMSG.c_str(), errorMSG.length(), 0);
 			return false;
 		}
+		it++;
 	}
 	return true;
 }
@@ -33,7 +34,7 @@ void commandNick(std::istringstream &iss, User &client, std::map<int, User> &cli
 		std::cout << "|" << nick << "|" << std::endl;
 		if(invalidNick(nick, client.getClientSocket()))
 			return ;
-		if(nickUnique(nick, client.getClientSocket(), clientList))
+		if(!nickUnique(nick, client.getClientSocket(), clientList))
 			return ;
 /* 		if(!client.getName(USER_NICK_NAME).empty()){ // eğer nick varsa ve değiştiriyorsa
 			std::string changeMSG = client.getName(USER_NICK_NAME) + " "
