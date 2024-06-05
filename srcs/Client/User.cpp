@@ -9,14 +9,10 @@ User::User(int clientFd):clientSocket(clientFd),  userName(""), nickName(""), \
     gethostname(str_h, sizeof(str_h));
 	std::string info(str_h);
 	this->hostInfo = info;
-	if(this->hostInfo.length() > 1)
-		std::cout << "Constructor hostinfo: " << this->hostInfo << std::endl;
-	else
-		std::cout << "ananı sikiyim" << std::endl;
 }
 
 User::User(const User& copy):clientSocket(copy.clientSocket), userName(copy.userName), nickName(copy.nickName), \
-	 realName(copy.realName), password(copy.password), isAuth(copy.isAuth){}
+	 realName(copy.realName), hostInfo(copy.hostInfo), password(copy.password), isAuth(copy.isAuth){}
 
 User& User::operator=(const User& copy){
 	if(this == &copy)
@@ -27,6 +23,7 @@ User& User::operator=(const User& copy){
 	this->nickName = copy.nickName;
 	this->realName = copy.realName;
 	this->password = copy.password;
+	this->hostInfo = copy.hostInfo;
 	this->isAuth = copy.isAuth;
 	return *this;
 }

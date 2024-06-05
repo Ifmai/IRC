@@ -47,7 +47,6 @@ void ircStart(t_IRC_DATA *data){
 	std::map<int, User> clientList; // pair 1998 de çıkarılmıştır 98 standardında geçerlidir.
 	//std::list<Channel> channelList;
 	while(true){
-		printList(clientList);
 		data->readFds = data->masterFds; // kopyalıyoruz çünkü select bozuyor işlem yaparken.
 		if(select(data->fdMax+1, &data->readFds, NULL, NULL, NULL) == -1){
 			perror("select");

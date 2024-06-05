@@ -5,7 +5,8 @@
 int main() {
     // Input string
     std::string input = "PASS :ANANIYEDIM";
-
+    std::cout << input << " " << std::endl;
+/* 
     // Create a string stream from the input string
     std::istringstream iss(input);
 
@@ -36,4 +37,4 @@ int main() {
     }
 
     return 0;
-}
+ */}
