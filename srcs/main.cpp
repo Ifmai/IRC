@@ -2,7 +2,7 @@
 
 int main(int ac, char **argv){
 	if(ac != 3){
-		std::cerr << "İnput Example : <port> <password>" << std::endl;
+		std::cerr << "Input Example : <port> <password>" << std::endl;
 		return (EXIT_FAILURE);
 	}
 	else {

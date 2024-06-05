@@ -14,9 +14,9 @@ static bool nickUnique(std::string input, int clientFD, std::map<int, User> &cli
 	std::map<int, User>::iterator it = clientList.begin();
 	while(it != clientList.end()){
 		if(it->second.getName(USER_NICK_NAME) == input){
-			std::string errorMSG = ERR_NICKNAMEINUSE(input) + ": Nickname is already in use.";
+			std::string errorMSG = ERR_NICKNAMEINUSE(input) + " : Nickname is already in use.\r\n";
 			if(clientFD == it->first){
-				errorMSG = ERR_NICKNAMEINUSE(input) + ":This nickname is used by you.";
+				errorMSG = ERR_NICKNAMEINUSE(input) + " :This nickname is used by you.\r\n";
 				send(clientFD, errorMSG.c_str(), errorMSG.length(), 0);
 				return false;
 			}

@@ -32,20 +32,22 @@ static void serverConfig(t_IRC_DATA *data){
 	std::cout << "----------------" << std::endl;
 }
 
-/* void	printList(std::map<int, User> list){
+void	printList(std::map<int, User> list){
 	std::map<int, User>::iterator it = list.begin();
 	while(it != list.end()){
-		std::cout << "["<< it->first << "] : " << it->second.getClientSocket() << std::endl;
+		std::string hostInfo = it->second.gethostInfo();
+		std::cout << "HOST INFO" << hostInfo << std::endl;
+		std::cout << "["<< it->first << "] : " << it->second.getClientSocket() << " : hostname : " << it->second.gethostInfo() << it->second.getName(USER_NAME) << std::endl;
 		it++;
 	}
 }
- */
 
 void ircStart(t_IRC_DATA *data){
 	serverConfig(data);
 	std::map<int, User> clientList; // pair 1998 de çıkarılmıştır 98 standardında geçerlidir.
 	//std::list<Channel> channelList;
 	while(true){
+		printList(clientList);
 		data->readFds = data->masterFds; // kopyalıyoruz çünkü select bozuyor işlem yaparken.
 		if(select(data->fdMax+1, &data->readFds, NULL, NULL, NULL) == -1){
 			perror("select");

@@ -35,6 +35,15 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				std::string loginMSG = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME));
 				send(client.getClientSocket(), loginMSG.c_str(), loginMSG.length(), 0);
 			}
+			if(client.getIsAuth() && token == "PRIVMSG")
+				commandPRIVMSG(iss, data->buff, client,clientList);
 		}
 	}
 }
+
+/*
+PASS asd USER alp1 NICK alp
+PASS asd USER berna1 NICK berna
+PRIVMSG berna asdasdasd
+PRIVMSG alp asdasdasd
+*/

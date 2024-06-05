@@ -18,11 +18,6 @@
 	#define BACKLOG 100
 	#define BUFFER_SIZE 512
 
-	typedef struct s_token{
-		std::string	command;
-		std::string	x;
-	}				t_token;
-
 	typedef struct s_IRC
 	{
 		fd_set				readFds; // select for while.
@@ -39,7 +34,7 @@
 		int					serverSocket; // server socket.
 		int					newClientSocket; // new user.
 
-		std::map<int, User>::iterator	userIT;
+		//std::map<int, User>::iterator	userIT;
 		//std::list<Channel>::iterator	channelIT;
 	}						t_IRC_DATA;
 
@@ -55,4 +50,7 @@
 		void commandNick(std::istringstream &iss, User &client, std::map<int, User> &clientList);
 		void commandPass(std::istringstream &iss, User &client, std::map<int, User> &clientList, t_IRC_DATA *data);
 		void commandUser(std::istringstream &iss, User &client);
+
+		void commandPRIVMSG(std::istringstream &iss, std::string buff, User &client, std::map<int, User> &clientList);
+
 #endif

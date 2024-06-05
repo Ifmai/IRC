@@ -10,7 +10,8 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Client/User.cpp \
 	  ./srcs/Command/nickCommand.cpp \
 	  ./srcs/Command/passCommand.cpp \
-	  ./srcs/Command/userCommand.cpp
+	  ./srcs/Command/userCommand.cpp \
+	  ./srcs/Command/privMsgCommand.cpp
 all: $(Name)
 
 $(Name): $(SRC)
