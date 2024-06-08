@@ -10,7 +10,7 @@ void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientL
 	//Birde channelda varsa o listeden de silincek.
 }
 
-void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList){
+void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList, std::list<Channel> &channelList){
 	if((data->nbytes = recv(userFD, data->buff,sizeof(data->buff), 0)) <= 0){
 		if(data->nbytes == 0)
 			printf("select server: socket %d hung up\n", userFD);
@@ -37,7 +37,8 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 			}
 			if(client.getIsAuth() && (token == "PRIVMSG" || token == "NOTICE"))
 				commandMSG(token, iss, data->buff, client,clientList);
-			
+			if(client.getIsAuth() && token == "JOIN")
+				commandJoin(data->buff, iss, channelList, client);
 		}
 	}
 }
@@ -45,6 +46,6 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 /*
 PASS asd USER alp1 NICK alp
 PASS asd USER berna1 NICK berna
-PRIVMSG berna asdasdasd
-PRIVMSG alp asdasdasd
+PRIVMSG berna alp <3
+PRIVMSG alp berna <3
 */

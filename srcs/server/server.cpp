@@ -45,7 +45,7 @@ void	printList(std::map<int, User> list){
 void ircStart(t_IRC_DATA *data){
 	serverConfig(data);
 	std::map<int, User> clientList; // pair 1998 de çıkarılmıştır 98 standardında geçerlidir.
-	//std::list<Channel> channelList;
+	std::list<Channel> channelList;
 	while(true){
 		data->readFds = data->masterFds; // kopyalıyoruz çünkü select bozuyor işlem yaparken.
 		if(select(data->fdMax+1, &data->readFds, NULL, NULL, NULL) == -1){
@@ -57,7 +57,7 @@ void ircStart(t_IRC_DATA *data){
 				if(fd == data->serverSocket)
 					newUserAdd(data, clientList);
 				else
-					handleClient(data, fd, clientList.find(fd)->second, clientList);
+					handleClient(data, fd, clientList.find(fd)->second, clientList, channelList);
 			}
 		}
 	}

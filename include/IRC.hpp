@@ -10,9 +10,10 @@
 	#include <arpa/inet.h>
 	#include <fcntl.h>
 	#include <sstream>
+	#include <list>
 
 
-	#include "User.hpp"
+	#include "Channel.hpp"
 	#include "Messages.hpp"
 
 	#define BACKLOG 100
@@ -44,7 +45,7 @@
 
 	//IRC
 	void ircStart(t_IRC_DATA *data);
-	void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList);
+	void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList, std::list<Channel> &channelList);
 		void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList);
 		void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
 		void commandNick(std::istringstream &iss, User &client, std::map<int, User> &clientList);
@@ -52,5 +53,6 @@
 		void commandUser(std::istringstream &iss, User &client);
 
 		void commandMSG(std::string &token, std::istringstream &iss, std::string buff, User &client, std::map<int, User> &clientList);
+		void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user);
 
 #endif
