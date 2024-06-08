@@ -34,7 +34,7 @@
     };
 
     bool checkList(std::string channel, std::list<Channel> &channelList);
-    Channel& getChannel(std::list<Channel> &channelList, std::string channel);
+    std::list<Channel>::iterator getChannel(std::list<Channel> &channelList, std::string channel);
 
 #endif
 

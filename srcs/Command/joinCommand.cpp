@@ -22,7 +22,8 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
         iss >> key;
         if(!checkList(channel, channelList))
             createChannel(channel, key, channelList, user);
-        Channel &joinChannel = getChannel
+        std::list<Channel>::iterator it = getChannel(channelList, channel);
+        
     }
     //else yetersiz arguman error msg
 }

@@ -61,13 +61,13 @@ bool checkList(std::string channel, std::list<Channel> &channelList){
     return false;
 }
 
-Channel& getChannel(std::list<Channel> &channelList, std::string channel){
+std::list<Channel>::iterator getChannel(std::list<Channel> &channelList, std::string channel){
     std::list<Channel>::iterator it = channelList.begin();
     while(it != channelList.end()){
         if(it->getName() == channel)
-            return *it;
+            return it;
         it++;
     }
-    //return nullptr;
+    return channelList.end();
 }
 
