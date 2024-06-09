@@ -7,9 +7,8 @@ void commandMSG(std::string &token, std::istringstream &iss, std::string buff, U
 	std::string errMsg;
 
 	if(iss >> target){
-		std::cout << "host : " << client.getName(USER_HOST_INFO) << std::endl;
-		std::string userIdentity =  ":" + client.getName(USER_NICK_NAME) + "!" + client.getName(USER_NAME) + \
-			"@" + client.getName(USER_HOST_INFO) + " ";
+		//std::cout << "host : " << client.getName(USER_HOST_INFO) << std::endl;
+		std::string userIdentity = IDENTIY_USER(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.getName(USER_HOST_INFO));
 		if(target.at(0) == '#'){ // Channel
 			//channelist if
 			//else 404 Do not send messages to the channel.

@@ -42,6 +42,7 @@
 	//Arguman Checking
 	bool portCheck(t_IRC_DATA *data, std::string port);
 	void fillData(t_IRC_DATA *data, std::string passwordInput);
+	
 
 	//IRC
 	void ircStart(t_IRC_DATA *data);

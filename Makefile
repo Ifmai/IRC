@@ -8,10 +8,12 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/argCheck/inputCheck.cpp \
 	  ./srcs/Client/handleClient.cpp \
 	  ./srcs/Client/User.cpp \
+	  ./srcs/Channel/Channel.cpp \
 	  ./srcs/Command/nickCommand.cpp \
 	  ./srcs/Command/passCommand.cpp \
 	  ./srcs/Command/userCommand.cpp \
-	  ./srcs/Command/msgCommand.cpp
+	  ./srcs/Command/msgCommand.cpp \
+	  ./srcs/Command/joinCommand.cpp
 all: $(Name)
 
 $(Name): $(SRC)
