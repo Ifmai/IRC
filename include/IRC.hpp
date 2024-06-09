@@ -52,8 +52,8 @@
 		void commandNick(std::istringstream &iss, User &client, std::map<int, User> &clientList);
 		void commandPass(std::istringstream &iss, User &client, std::map<int, User> &clientList, t_IRC_DATA *data);
 		void commandUser(std::istringstream &iss, User &client);
-
-		void commandMSG(std::string &token, std::istringstream &iss, std::string buff, User &client, std::map<int, User> &clientList);
+		
+		void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList);
 		void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user);
 
 #endif

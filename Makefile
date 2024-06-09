@@ -13,7 +13,8 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Command/passCommand.cpp \
 	  ./srcs/Command/userCommand.cpp \
 	  ./srcs/Command/msgCommand.cpp \
-	  ./srcs/Command/joinCommand.cpp
+	  ./srcs/Command/joinCommand.cpp 
+
 all: $(Name)
 
 $(Name): $(SRC)

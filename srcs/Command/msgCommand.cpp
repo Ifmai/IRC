@@ -1,7 +1,20 @@
 #include "../../include/IRC.hpp"
 
+
+static std::string fullMsg(std::istringstream &iss){
+	std::string result = "";
+	std::string msg;
+	while(iss >> msg){
+		if(result.empty())
+			result += msg;
+		else
+			result += " " + msg;
+	}
+	return result;
+}
+
 // Notice and PrivMsg Command
-void commandMSG(std::string &token, std::istringstream &iss, std::string buff, User &client, std::map<int, User> &clientList){
+void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList){
 	std::string target;
 	std::string msg;
 	std::string errMsg;
@@ -15,8 +28,9 @@ void commandMSG(std::string &token, std::istringstream &iss, std::string buff, U
 		}
 		else{ // User to User
 			User* sendClient = searchNick(target, clientList);
-			if(sendClient != nullptr){
-				msg = userIdentity + buff + "\r\n";
+			if(sendClient != nullptr ){
+				std::string sendMsg = fullMsg(iss);
+				msg = userIdentity + token + " " + target + " :" + sendMsg + "\r\n";
 				std::cout << msg << std::endl;
 				send(sendClient->getClientSocket(), msg.c_str(), msg.length(), 0);
 			}
