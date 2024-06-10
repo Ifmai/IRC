@@ -18,6 +18,7 @@
             std::list<int>                  inviteList;
             std::list<int>                  channelModerator;
             std::string                     channelTopic;
+            std::string                     changerTopic;
 
             bool                            isPublic;
             bool                            isInvite;
@@ -36,12 +37,15 @@
             std::string getChannelType();
             std::string getKey();
             std::string getTopic();
+            std::string getChangerTopic();
+
             bool        getKeyExist();
             bool        getisInvite();
             bool        getChannelMode(std::string mode);
             bool        getIsPublic();
             bool        getInviteList(int fd);
 
+            void        setChangerTopic(std::string nick);
             void        setTopic(std::string newTopic);
             void        setKey(std::string input);
             void        setIsPublic(bool input);

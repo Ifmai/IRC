@@ -53,7 +53,14 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                 }
                 joinMsg = userIdentity + buff + "\r\n";
                 send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
-                //topic mesaj
+                std::string topic = it->getTopic();
+                if(!topic.empty()){
+                    std::string msgTopic = RPL_TOPIC(it->getChangerTopic(), channel, topic);
+                    send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
+                }else{
+                    std::string msgTopic = RPL_NOTOPIC(channel);
+                    send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
+                }
                 it->newJoinMsg(user.getClientSocket(), userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
                 //channeldaki herkese katılan kişinin bilgisi gidicek. bundan emin değilim bakıcam.
             }

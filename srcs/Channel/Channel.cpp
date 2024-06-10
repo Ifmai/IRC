@@ -8,6 +8,7 @@ Channel::Channel(std::string name, std::string type, int clientFd){
     this->isPublic = false;
     this->isInvite = false;
     this->keyExist = false;
+    //eklemeler yapılcak bunların hepsine channela baya bir şey ekledim.
 }
 
 Channel::Channel(const Channel& copy){
@@ -182,4 +183,12 @@ std::string Channel::getTopic(){
 
 void Channel::setTopic(std::string newTopic){
     this->channelTopic = newTopic;
+}
+
+std::string Channel::getChangerTopic(){
+    return this->changerTopic;
+}
+
+void Channel::setChangerTopic(std::string nick){
+    this->changerTopic = nick;
 }
