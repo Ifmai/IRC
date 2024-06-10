@@ -54,5 +54,8 @@
 		
 		void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList, std::list<Channel> channelList);
 		void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
-
+		void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User &user);
+	
+	//Comand Utils
+	std::string fullMsg(std::istringstream &iss);
 #endif

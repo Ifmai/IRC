@@ -17,6 +17,7 @@
             std::list<int>                  clientList;
             std::list<int>                  inviteList;
             std::list<int>                  channelModerator;
+            std::string                     channelTopic;
 
             bool                            isPublic;
             bool                            isInvite;
@@ -28,17 +29,20 @@
 			~Channel();
 
             void        sendMsgChannel(std::string msg, int senderFd);
+            void        sendChangeTopicMsg(std::string msg);
             void        newJoinMsg(int userFd, std::map<int, User> userList);
 
             std::string getName();
             std::string getChannelType();
             std::string getKey();
+            std::string getTopic();
             bool        getKeyExist();
             bool        getisInvite();
             bool        getChannelMode(std::string mode);
             bool        getIsPublic();
             bool        getInviteList(int fd);
 
+            void        setTopic(std::string newTopic);
             void        setKey(std::string input);
             void        setIsPublic(bool input);
             void        setKeyExist(bool input);

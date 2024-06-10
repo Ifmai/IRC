@@ -9,6 +9,14 @@ void Channel::sendMsgChannel(std::string msg, int senderFd){
 	}
 }
 
+void Channel::sendChangeTopicMsg(std::string msg){
+	std::list<int>::iterator sender = this->clientList.begin();
+	while(sender != this->clientList.end()){
+			send(*sender, msg.c_str(), msg.length(), 0);
+		sender++;
+	}
+}
+
 void Channel::newJoinMsg(int userFd, std::map<int, User> userList){
 	std::string userInfo;
 	std::string msgJOIN;

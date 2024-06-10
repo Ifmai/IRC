@@ -175,3 +175,11 @@ bool Channel::getInviteList(int fd){
 void Channel::addInviteList(int fd){
     this->inviteList.push_back(fd);
 }
+
+std::string Channel::getTopic(){
+    return this->channelTopic;
+}
+
+void Channel::setTopic(std::string newTopic){
+    this->channelTopic = newTopic;
+}

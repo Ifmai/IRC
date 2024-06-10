@@ -61,6 +61,9 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                 errorMsg = ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME));
                 send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
             }
+        }else{
+            errorMsg = ERR_INVALIDCHANNELNAME(channel);
+            send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
         }
     }else {
         std::string token = "JOIN";

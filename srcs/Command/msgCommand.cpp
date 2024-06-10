@@ -1,19 +1,5 @@
 #include "../../include/IRC.hpp"
 
-
-static std::string fullMsg(std::istringstream &iss){
-	std::string result = "";
-	std::string msg;
-	while(iss >> msg){
-		if(result.empty())
-			result += msg;
-		else
-			result += " " + msg;
-	}
-	return result;
-}
-
-// Notice and PrivMsg Command
 void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList, std::list<Channel> channelList){
 	std::string target;
 	std::string msg;

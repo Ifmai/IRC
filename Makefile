@@ -9,11 +9,14 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Client/handleClient.cpp \
 	  ./srcs/Client/User.cpp \
 	  ./srcs/Channel/Channel.cpp \
+	  ./srcs/Channel/sendMsgChannel.cpp \
 	  ./srcs/Command/nickCommand.cpp \
 	  ./srcs/Command/passCommand.cpp \
 	  ./srcs/Command/userCommand.cpp \
 	  ./srcs/Command/msgCommand.cpp \
-	  ./srcs/Command/joinCommand.cpp 
+	  ./srcs/Command/joinCommand.cpp \
+	  ./srcs/Command/topicCommand.cpp \
+	  ./srcs/Command/commandUtils.cpp
 
 all: $(Name)
 
