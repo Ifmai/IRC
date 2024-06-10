@@ -25,7 +25,7 @@ static void createChannel(std::string buff, std::string channelName, std::string
     }
 }
 
-void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user){
+void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
     std::string channel;
     std::string errorMsg;
     std::string joinMsg;
@@ -35,10 +35,10 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
         if(channel.at(0) == '#' || channel.at(0) == '&'){
             std::string key = "";
             iss >> key;
-            if(!checkList(channel, channelList))
+            std::list<Channel>::iterator it = getChannel(channelList, channel);
+            if(it == channelList.end())
                 createChannel(buff, channel, key, channelList, user);
-            else{
-                std::list<Channel>::iterator it = getChannel(channelList, channel);
+            else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
                     if(key.empty() || key != it->getKey()){
                         errorMsg = ERR_BADCHANNELKEY(channel);
@@ -53,13 +53,19 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                 }
                 joinMsg = userIdentity + buff + "\r\n";
                 send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
-
                 //topic mesaj
-                //join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
-                //channeldaki herkese katılan kişinin bilgisi gidicek.
+                it->newJoinMsg(user.getClientSocket(), userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
+                //channeldaki herkese katılan kişinin bilgisi gidicek. bundan emin değilim bakıcam.
+            }
+            else{
+                errorMsg = ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME));
+                send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
             }
         }
+    }else {
+        std::string token = "JOIN";
+        errorMsg = ERR_NEEDMOREPARAMS(token);
+        send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
     }
-    //else yetersiz arguman error msg
 }
 

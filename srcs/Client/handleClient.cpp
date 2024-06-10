@@ -36,9 +36,9 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				send(client.getClientSocket(), loginMSG.c_str(), loginMSG.length(), 0);
 			}
 			if(client.getIsAuth() && token == "PRIVMSG")
-				commandMSG(token, iss, client,clientList);
+				commandMSG(token, iss, client,clientList, channelList);
 			if(client.getIsAuth() && token == "JOIN")
-				commandJoin(data->buff, iss, channelList, client);
+				commandJoin(data->buff, iss, channelList, client, clientList);
 		}
 	}
 }

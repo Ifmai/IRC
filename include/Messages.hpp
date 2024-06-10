@@ -9,7 +9,9 @@
 	#define ERR_NOSUCHNICK(client, nickname) (": 401 " + client + " " + nickname + " :No such nick\r\n")
 	#define ERR_BADCHANNELKEY(channel) (": 475 " + channel + " : Cannot join channel (+k)\r\n")
 	#define ERR_INVITEONLYCHAN(channel) (": 473 " + channel + " :Cannot join channel (+i)\r\n")
-
+	#define ERR_CANNOTSENDTOCHAN(channel) (": 404 " + channel + " :Cannot send to channel\r\n")
+	#define ERR_USERONCHANNEL(channel, nick) (": 443 " + nick + " " + channel + " :is already on channel\r\n")
+	
 	#define IDENTIY_USER(nickname,username,hostinfo) (":" + nickname + "!" + username + "@" + hostinfo + " ")
 	#define LOGIN(nickname, username) (": 001 " + nickname + " :Welcome to the IRC Network " + nickname + "!" + username + "\r\n")
 #endif

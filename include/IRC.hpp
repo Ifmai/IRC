@@ -5,7 +5,6 @@
 	#include <string.h>
 	#include <unistd.h>
 	#include <sys/types.h>
-	#include <sys/socket.h>
 	#include <netinet/in.h>
 	#include <arpa/inet.h>
 	#include <fcntl.h>
@@ -53,7 +52,7 @@
 		void commandPass(std::istringstream &iss, User &client, std::map<int, User> &clientList, t_IRC_DATA *data);
 		void commandUser(std::istringstream &iss, User &client);
 		
-		void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList);
-		void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user);
+		void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList, std::list<Channel> channelList);
+		void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
 
 #endif

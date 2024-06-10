@@ -96,13 +96,13 @@ void User::setName(int nameType, std::string inputName){
 	}
 }
 
-User* searchNick(const std::string &nick, std::map<int, User> &clientList){
+std::map<int, User>::iterator searchNick(const std::string &nick, std::map<int, User> &clientList){
 	std::map<int, User>::iterator it = clientList.begin();
 	while(it != clientList.end()){
 		if(it->second.getName(USER_NICK_NAME) == nick)
-			return &it->second;
+			return it;
 		else
 			it++;
 	}
-	return nullptr;
+	return clientList.end();
 }

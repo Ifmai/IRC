@@ -42,5 +42,5 @@
 			
 	};
 
-	User* searchNick(const std::string &nick, std::map<int, User> &clientList);
+	std::map<int, User>::iterator searchNick(const std::string &nick, std::map<int, User> &clientList);
 #endif

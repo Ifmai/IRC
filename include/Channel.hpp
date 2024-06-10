@@ -5,6 +5,8 @@
     #include <iostream>
     #include <list>
     #include "User.hpp"
+	#include <sys/socket.h>
+    #include "Messages.hpp"
 
     class Channel{
         private:
@@ -25,24 +27,30 @@
 			Channel& operator=(const Channel& copy);
 			~Channel();
 
+            void        sendMsgChannel(std::string msg, int senderFd);
+            void        newJoinMsg(int userFd, std::map<int, User> userList);
+
             std::string getName();
             std::string getChannelType();
             std::string getKey();
             bool        getKeyExist();
             bool        getisInvite();
-            bool        checkClient(int fd);
             bool        getChannelMode(std::string mode);
             bool        getIsPublic();
             bool        getInviteList(int fd);
-            
-            void        addInviteList(int fd);
+
+            void        setKey(std::string input);
             void        setIsPublic(bool input);
+            void        setKeyExist(bool input);
+            void        addChannelMode(std::string input);
+            
+            bool        checkClient(int fd);
+            bool        checkClientMode(int fd);
+            void        addInviteList(int fd);
             void        addModerator(int fd);
             void        removeModerator(int fd);
-            void        addChannelMode(std::string input);
             void        removeChannelMode(std::string input);
-            void        setKey(std::string input);
-            void        setKeyExist(bool input);
+            
     };
 
     bool checkList(std::string channel, std::list<Channel> &channelList);

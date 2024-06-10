@@ -122,6 +122,17 @@ bool Channel::checkClient(int fd){
     return false;
 }
 
+bool Channel::checkClientMode(int fd){
+    std::list<int>::iterator find = this->channelModerator.begin();
+    std::list<int>::iterator it = this->channelModerator.end();
+    while(find != it){
+        if(*find == fd)
+            return true;
+        find++;
+    }
+    return false;
+}
+
 bool checkList(std::string channel, std::list<Channel> &channelList){
     std::list<Channel>::iterator it = channelList.begin();
     while(it != channelList.end()){
