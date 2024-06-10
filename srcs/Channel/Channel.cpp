@@ -5,7 +5,7 @@ Channel::Channel(std::string name, std::string type, int clientFd){
     this->channelType = type;
     this->clientList.push_back(clientFd);
     this->channelKey = "";
-    this->isPublic = false;
+    this->isPublic = true;
     this->isInvite = false;
     this->keyExist = false;
     //eklemeler yapılcak bunların hepsine channela baya bir şey ekledim.
@@ -191,4 +191,23 @@ std::string Channel::getChangerTopic(){
 
 void Channel::setChangerTopic(std::string nick){
     this->changerTopic = nick;
+}
+
+void Channel::addClientList(int fd){
+    this->clientList.push_back(fd);
+}
+
+void Channel::removeClientList(int fd){
+    std::list<int>::iterator it = this->clientList.begin();
+    while(it != clientList.end()){
+        if(*it == fd)
+            break;
+        it++;
+    }
+    if(it != this->clientList.end())
+        this->clientList.erase(it);
+}
+
+int Channel::getClientListSize(){
+    return this->clientList.size();
 }

@@ -9,7 +9,7 @@ void Channel::sendMsgChannel(std::string msg, int senderFd){
 	}
 }
 
-void Channel::sendChangeTopicMsg(std::string msg){
+void Channel::sendAllMsg(std::string msg){
 	std::list<int>::iterator sender = this->clientList.begin();
 	while(sender != this->clientList.end()){
 			send(*sender, msg.c_str(), msg.length(), 0);
@@ -34,6 +34,19 @@ void Channel::newJoinMsg(int userFd, std::map<int, User> userList){
 		}
 		sender++;
 	}
+}
+
+void Channel::writeClientList(int sendFd, std::map<int, User> &userList){
+    std::list<int>::iterator it = this->clientList.begin();
+    std::map<int, User>::iterator user;
+    std::string sendMsg;
+    while(it != this->clientList.end()){
+        user = userList.find(*it);
+        sendMsg += "User Nick: " + user->second.getName(USER_NICK_NAME) + "\n";
+        it++;
+    }
+	sendMsg += "\r\n";
+    send(sendFd, sendMsg.c_str(), sendMsg.length(), 0);
 }
 
 /* for (size_t j = 0; j < server->getChannels()[i].clients.size() - 1; j++)

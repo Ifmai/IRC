@@ -45,13 +45,14 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                         send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0); 
                     }
                 }
-                if(it->getIsPublic() == true && it->getChannelMode("+i")){
+                if(it->getIsPublic() == false && it->getChannelMode("+i")){
                     if(!it->getInviteList(user.getClientSocket())){
                         errorMsg = ERR_INVITEONLYCHAN(channel);
                         send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
                     }
                 }
                 joinMsg = userIdentity + buff + "\r\n";
+                it->addClientList(user.getClientSocket());
                 send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
                 std::string topic = it->getTopic();
                 if(!topic.empty()){

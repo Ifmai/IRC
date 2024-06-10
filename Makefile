@@ -16,7 +16,9 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Command/msgCommand.cpp \
 	  ./srcs/Command/joinCommand.cpp \
 	  ./srcs/Command/topicCommand.cpp \
-	  ./srcs/Command/commandUtils.cpp
+	  ./srcs/Command/commandUtils.cpp \
+	  ./srcs/Command/kickCommand.cpp \
+	  ./srcs/Command/listCommand.cpp 
 
 all: $(Name)
 

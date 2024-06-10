@@ -41,7 +41,12 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandJoin(data->buff, iss, channelList, client, clientList);
 			else if(client.getIsAuth() && token == "TOPIC")
 				commandTopic(iss ,channelList, client);
-
+			else if(client.getIsAuth() && token == "KICK")
+				commandKick(iss, channelList, client, clientList);
+			else if(client.getIsAuth() && token == "KICK")
+				commandList(iss, channelList, client, clientList);
+			else if(client.getIsAuth() && token == "INVITE")
+				commandInvite(iss, channelList, client, clientList);
 		}
 	}
 }

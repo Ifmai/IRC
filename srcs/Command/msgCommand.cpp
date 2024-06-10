@@ -23,7 +23,7 @@ void commandMSG(std::string &token, std::istringstream &iss, User &client, std::
 			if(sendClient != clientList.end())
 				send(sendClient->second.getClientSocket(), msg.c_str(), msg.length(), 0);
 			else if (token == "PRIVMSG"){
-				errMsg = ERR_NOSUCHNICK(client.getName(USER_NICK_NAME), target);
+				errMsg = ERR_NOSUCHNICK(target);
 				send(client.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
 			}
 		}

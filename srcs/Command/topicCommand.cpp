@@ -13,14 +13,14 @@ void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User
 					if(topic.length() == 1 && topic.at(0) == ':'){
 						ch->setTopic("");
 						topic = RPL_NOTOPIC(channel);
-            			ch->sendChangeTopicMsg(topic);
+            			ch->sendAllMsg(topic);
 					}
 					else if(topic.length() > 1){
 						if(topic.at(0) == ':')
 							topic.erase(0);
 						ch->setTopic(topic);
 						std::string msgTopic = RPL_TOPIC(user.getName(USER_NICK_NAME), channel, topic);
-						ch->sendChangeTopicMsg(msgTopic);
+						ch->sendAllMsg(msgTopic);
 					}
 					else{
 						std::string msgTopic = ch->getTopic();

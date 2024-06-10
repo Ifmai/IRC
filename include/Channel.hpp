@@ -30,20 +30,22 @@
 			~Channel();
 
             void        sendMsgChannel(std::string msg, int senderFd);
-            void        sendChangeTopicMsg(std::string msg);
+            void        sendAllMsg(std::string msg);
             void        newJoinMsg(int userFd, std::map<int, User> userList);
+            void        writeClientList(int sendFd, std::map<int, User> &userList);
 
             std::string getName();
             std::string getChannelType();
             std::string getKey();
             std::string getTopic();
             std::string getChangerTopic();
-
+            int         getClientListSize();
             bool        getKeyExist();
             bool        getisInvite();
             bool        getChannelMode(std::string mode);
             bool        getIsPublic();
             bool        getInviteList(int fd);
+
 
             void        setChangerTopic(std::string nick);
             void        setTopic(std::string newTopic);
@@ -58,6 +60,8 @@
             void        addModerator(int fd);
             void        removeModerator(int fd);
             void        removeChannelMode(std::string input);
+            void        addClientList(int fd);
+            void        removeClientList(int fd);
             
     };
 
