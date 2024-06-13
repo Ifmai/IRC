@@ -12,7 +12,7 @@ static void createChannel(std::string channelName, std::string key, std::list<Ch
     it->addModerator(user.getClientSocket());
     joinMsg = userIdentity + " JOIN " + channelName + "\r\n";
     send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
-    modeMsg = "MODE " + channelName +  " +m " + user.getName(USER_NICK_NAME) + "\r\n";
+    modeMsg = "MODE " + channelName +  " +o " + user.getName(USER_NICK_NAME) + "\r\n";
     if(!key.empty()){
         it->setKeyExist(true);
         it->setKey(key);
@@ -29,6 +29,7 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
     std::string channel;
     std::string joinMsg;
     std::string userIdentity = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
+    joinMsg = buff;
     
     if(iss >> channel){
         if(channel.at(0) == '#' || channel.at(0) == '&'){
@@ -38,6 +39,7 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
             if(it == channelList.end())
                 createChannel(channel, key, channelList, user);
             else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
+                std::cout << "gelen key : " << key << std::endl;
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
                     if(key.empty() || key != it->getKey()){
                         errMesageSend(user.getClientSocket(), ERR_BADCHANNELKEY(channel));
@@ -50,7 +52,7 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                         return ;
                     }
                 }
-                joinMsg = userIdentity + buff + "\r\n";
+                joinMsg = userIdentity + " JOIN " + it->getName() + "\r\n";                 
                 it->addClientList(user.getClientSocket());
                 send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
                 std::string topic = it->getTopic();
@@ -62,7 +64,7 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                     send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
                 }
                 it->newJoinMsg(user.getClientSocket(), userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
-                //channeldaki herkese katılan kişinin bilgisi gidicek. bundan emin değilim bakıcam.
+                it->newJoinMsgALL(userList);
             }
             else
                 errMesageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));

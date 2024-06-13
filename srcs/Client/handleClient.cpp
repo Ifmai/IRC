@@ -32,8 +32,12 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandUser(iss, client);
 			if(!client.getPassword().empty() && !client.getName(USER_NAME).empty() && !client.getName(USER_NICK_NAME).empty() && !client.getIsAuth()){
 				client.setIsAuth(true);
-				std::string loginMSG = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME));
+				std::string loginMSG = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo());
 				send(client.getClientSocket(), loginMSG.c_str(), loginMSG.length(), 0);
+			}
+			else if(token == "PING" && client.getIsAuth()){
+				std::string msg = data->buff;
+				commandPing(msg, client);
 			}
 			if(client.getIsAuth() && token == "PRIVMSG")
 				commandMSG(token, iss, client,clientList, channelList);
