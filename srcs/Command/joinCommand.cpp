@@ -39,12 +39,16 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                 createChannel(buff, channel, key, channelList, user);
             else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
-                    if(key.empty() || key != it->getKey())
+                    if(key.empty() || key != it->getKey()){
                         errMesageSend(user.getClientSocket(), ERR_BADCHANNELKEY(channel));
+                        return ;
+                    }
                 }
                 if(it->getIsPublic() == false && it->getChannelMode("+i")){
-                    if(!it->getInviteList(user.getClientSocket()))
+                    if(!it->getInviteList(user.getClientSocket())){
                         errMesageSend(user.getClientSocket(), ERR_INVITEONLYCHAN(channel));
+                        return ;
+                    }
                 }
                 joinMsg = userIdentity + buff + "\r\n";
                 it->addClientList(user.getClientSocket());
