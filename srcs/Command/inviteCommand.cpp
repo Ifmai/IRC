@@ -5,13 +5,14 @@ void onlyInviteChannel(std::list<Channel>::iterator &ch, User &user,  std::map<i
     std::string userInfo;
     if(ch->checkClientMode(user.getClientSocket())){
         userInfo = IDENTIY_USER(targetUser->second.getName(USER_NICK_NAME), targetUser->second.getName(USER_NAME), targetUser->second.getName(USER_HOST_INFO));
-        sendMsg = userInfo + " INVITE " + targetUser->second.getName(USER_NICK_NAME) + " " + ch->getName();
+        sendMsg = userInfo + " INVITE " + targetUser->second.getName(USER_NICK_NAME) + " " + ch->getName() + "\r\n";
         send(targetUser->second.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
         sendMsg = RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName());
         send(user.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
         ch->addInviteList(targetUser->second.getClientSocket());
     }else
         errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(ch->getName()));
+    ch->printInviteList();
 }
 
 void defaultInviteChannel(std::list<Channel>::iterator &ch, User &user,  std::map<int, User>::iterator targetUser){
@@ -24,6 +25,7 @@ void defaultInviteChannel(std::list<Channel>::iterator &ch, User &user,  std::ma
     sendMsg = RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName());
     send(user.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
     ch->addInviteList(targetUser->second.getClientSocket());
+    ch->printInviteList();
 }
 
 void commandInvite(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){

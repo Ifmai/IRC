@@ -20,7 +20,10 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Command/kickCommand.cpp \
 	  ./srcs/Command/listCommand.cpp \
 	  ./srcs/Command/inviteCommand.cpp \
-	  ./srcs/Command/pingCommand.cpp 
+	  ./srcs/Command/pingCommand.cpp  \
+	  ./srcs/Command/modeCommand.cpp \
+	  ./srcs/Command/partCommand.cpp \
+	  ./srcs/Command/quitCommand.cpp 
 
 all: $(Name)
 

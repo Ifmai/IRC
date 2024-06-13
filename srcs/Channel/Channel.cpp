@@ -208,6 +208,28 @@ void Channel::removeClientList(int fd){
         this->clientList.erase(it);
 }
 
+void Channel::removeInviteList(int fd){
+    std::list<int>::iterator it = this->inviteList.begin();
+    while(it != inviteList.end()){
+        if(*it == fd)
+            break;
+        it++;
+    }
+    if(it != this->inviteList.end())
+        this->inviteList.erase(it);
+}
+
 int Channel::getClientListSize(){
     return this->clientList.size();
+}
+
+void Channel::checkModerator(std::map<int, User> &userList){
+    std::cout << "selam bro" << std::endl;
+    if(this->clientList.size() > 0 && this->channelModerator.size() == 0){
+        //std::cout << "GİRDİM AMA HİÇ BİR ŞEY YAPMADIM MAŞL AĞLA" << std::endl;
+        std::map<int, User>::iterator us;
+        std::string modeMsg;
+        us = userList.find(*this->clientList.begin());
+        modeMsg = IDENTIY_USER(us->second.getName(USER_NICK_NAME), us->second.getName(USER_NAME), us->second.getName(USER_HOST_INFO)) + " MODE " + this->getName() + " +o " + us->second.getName(USER_NICK_NAME) + "\r\n";
+    }
 }

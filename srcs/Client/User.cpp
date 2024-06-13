@@ -60,7 +60,6 @@ std::string User::getName(int nameType){
 			return this->realName;
 			break;
 		case USER_HOST_INFO:
-			std::cout << "hostinfo : " << this->hostInfo << std::endl;
 			return this->hostInfo;
 			break;
 		default:

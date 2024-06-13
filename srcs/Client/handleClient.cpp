@@ -7,7 +7,6 @@ void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientL
 	close(userFD);
 	FD_CLR(userFD, &data->masterFds);
 	clientList.erase(clientList.find(userFD));
-	//Birde channelda varsa o listeden de silincek.
 }
 
 void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList, std::list<Channel> &channelList){
@@ -51,8 +50,12 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandList(iss, channelList, client, clientList);
 			else if(client.getIsAuth() && token == "INVITE")
 				commandInvite(iss, channelList, client, clientList);
-/* 			else if(client.getIsAuth() && token == "MODE")
-				commandMode(iss, channelList, client, clientList); */
+			else if(client.getIsAuth() && token == "MODE")
+				commandMode(iss, channelList, client, clientList);
+			else if(client.getIsAuth() && token == "PART")
+				commandPart(iss, client, channelList, clientList);
+			else if(client.getIsAuth() && token == "QUIT")
+				commandQuit(iss, client, channelList, clientList, data);
 		}
 	}
 }
