@@ -1,6 +1,6 @@
 #include "../../include/IRC.hpp"
 
-static void createChannel(std::string buff, std::string channelName, std::string key, std::list<Channel> &channelList, User &user){
+static void createChannel(std::string channelName, std::string key, std::list<Channel> &channelList, User &user){
     std::string joinMsg;
     std::string modeMsg;
     std::string userIdentity = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
@@ -36,7 +36,7 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
             iss >> key;
             std::list<Channel>::iterator it = getChannel(channelList, channel);
             if(it == channelList.end())
-                createChannel(buff, channel, key, channelList, user);
+                createChannel(channel, key, channelList, user);
             else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
                     if(key.empty() || key != it->getKey()){
