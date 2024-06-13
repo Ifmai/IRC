@@ -12,7 +12,7 @@ static void createChannel(std::string buff, std::string channelName, std::string
     it->addModerator(user.getClientSocket());
     joinMsg = userIdentity + " JOIN " + channelName + "\r\n";
     send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
-    modeMsg = "MODE " + channelName +  " +o " + user.getName(USER_NICK_NAME) + "\r\n";
+    modeMsg = "MODE " + channelName +  " +m " + user.getName(USER_NICK_NAME) + "\r\n";
     if(!key.empty()){
         it->setKeyExist(true);
         it->setKey(key);
