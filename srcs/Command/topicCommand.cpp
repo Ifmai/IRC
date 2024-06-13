@@ -3,7 +3,6 @@
 void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User &user){
 	std::string channel;
 	std::string topic;
-	std::string errMsg;
 	if(iss >> channel){
 		if(channel.at('#') || channel.at('&')){
 			std::list<Channel>::iterator ch = getChannel(channelList, channel);
@@ -26,23 +25,16 @@ void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User
 						std::string msgTopic = ch->getTopic();
             			send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
 					}
-				}else{
-					errMsg = ERR_NOTONCHANNEL(channel);
-            		send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
-				}
-			}else{
-				errMsg = ERR_NOSUCHCHANNEL(channel);
-            	send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
-			}
+				}else
+        			errMesageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
+			}else
+        		errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
 
-		}else{
-            errMsg = ERR_INVALIDCHANNELNAME(channel);
-            send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
-		}
+		}else
+        	errMesageSend(user.getClientSocket(), ERR_INVALIDCHANNELNAME(channel));
 	}else{
 		std::string token = "TOPIC";
-		errMsg = ERR_NEEDMOREPARAMS(token);
-		send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
+        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 	}
 
 }

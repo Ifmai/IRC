@@ -4,7 +4,6 @@ void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User 
     std::string channel;
     std::string kickedUserName;
     std::string kickMessage;
-    std::string errMsg;
     std::map<int, User>::iterator kickedUser;
     if(iss >> channel){
         std::list<Channel>::iterator ch = getChannel(channelList, channel);
@@ -22,26 +21,18 @@ void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User 
                         ch->removeClientList(kickedUser->second.getClientSocket());
                         std::string allmsg = "KICK " + channel + " " + kickedUserName + "\r\n";
                         ch->sendAllMsg(allmsg);
-                    }else{
-                        errMsg = ERR_CHANOPRIVSNEEDED(channel);
-                        send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
-                    }
-                }else{
-                    errMsg = ERR_USERNOTINCHANNEL(kickedUserName, channel);
-                    send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
-                }
+                    }else
+                        errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(channel));
+                }else
+                    errMesageSend(user.getClientSocket(), ERR_USERNOTINCHANNEL(kickedUserName, channel));
             }else{
                 std::string token = "KICK";
-                errMsg = ERR_NEEDMOREPARAMS_KICK_USER(token);
-                send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
+                errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
             }
-        }else{
-            errMsg = ERR_NOSUCHCHANNEL(channel);
-            send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
-        }
+        }else
+            errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
     }else{
         std::string token = "KICK";
-        errMsg = ERR_NEEDMOREPARAMS(token);
-        send(user.getClientSocket(), errMsg.c_str(), errMsg.length(), 0);
+        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
     }
 }

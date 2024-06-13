@@ -58,8 +58,10 @@
 		void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &clientList);
 		void commandList(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
 		void commandInvite(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
+		void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
 
 	
 	//Comand Utils
 	std::string fullMsg(std::istringstream &iss);
+	void errMesageSend(int targetFd, std::string errMsg);
 #endif

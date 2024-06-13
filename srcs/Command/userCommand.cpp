@@ -8,13 +8,9 @@ void commandUser(std::istringstream &iss, User &client){
 		if(client.getName(USER_NAME).empty() && !client.getIsAuth()){
 			client.setName(USER_NAME, usrName);
 		}
-		else{
-			errMSG = ERR_ALREADYREGISTERED();
-			send(client.getClientSocket(), errMSG.c_str(), errMSG.length(), 0);
-		}
+		else
+        	errMesageSend(client.getClientSocket(), ERR_ALREADYREGISTERED());
 	}
-	else{
-		errMSG = ERR_NEEDMOREPARAMS(token);
-		send(client.getClientSocket(), errMSG.c_str(), errMSG.length(), 0);
-	}
+	else
+        errMesageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }

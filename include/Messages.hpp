@@ -4,6 +4,7 @@
 	#define DEFAULT_KICK_MSG(channel, nick) ("You have been kicked out of the " + channel + " channel by" + nick + "\r\n")
 
 	#define ERR_NEEDMOREPARAMS(command) (": 461 " + command + " : Not enough parameters!\r\n")
+	#define ERR_NEEDMOREPARAMS_MODE_VALUE(command) (": 461 " + command + " : Need mode parameters!\r\n")
 	#define ERR_NEEDMOREPARAMS_KICK_USER(command) (": 461 " + command + " : Need user nick name!\r\n")
 	#define ERR_ALREADYREGISTERED() (": 462 :You may not reregister!\r\n")
 	#define ERR_PASSWDMISMATCH() (": 464 : Password incorrect!\r\n")

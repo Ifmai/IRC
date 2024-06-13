@@ -52,14 +52,15 @@
             void        setKey(std::string input);
             void        setIsPublic(bool input);
             void        setKeyExist(bool input);
-            void        addChannelMode(std::string input);
             
             bool        checkClient(int fd);
             bool        checkClientMode(int fd);
+
+            void        addChannelMode(std::string input);
+            void        removeChannelMode(std::string input);
             void        addInviteList(int fd);
             void        addModerator(int fd);
             void        removeModerator(int fd);
-            void        removeChannelMode(std::string input);
             void        addClientList(int fd);
             void        removeClientList(int fd);
             

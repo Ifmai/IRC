@@ -47,6 +47,8 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandList(iss, channelList, client, clientList);
 			else if(client.getIsAuth() && token == "INVITE")
 				commandInvite(iss, channelList, client, clientList);
+			else if(client.getIsAuth() && token == "MODE")
+				commandMode(iss, channelList, client, clientList);
 		}
 	}
 }

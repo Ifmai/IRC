@@ -27,7 +27,6 @@ static void createChannel(std::string buff, std::string channelName, std::string
 
 void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
     std::string channel;
-    std::string errorMsg;
     std::string joinMsg;
     std::string userIdentity = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
     
@@ -40,16 +39,12 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                 createChannel(buff, channel, key, channelList, user);
             else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
-                    if(key.empty() || key != it->getKey()){
-                        errorMsg = ERR_BADCHANNELKEY(channel);
-                        send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0); 
-                    }
+                    if(key.empty() || key != it->getKey())
+                        errMesageSend(user.getClientSocket(), ERR_BADCHANNELKEY(channel));
                 }
                 if(it->getIsPublic() == false && it->getChannelMode("+i")){
-                    if(!it->getInviteList(user.getClientSocket())){
-                        errorMsg = ERR_INVITEONLYCHAN(channel);
-                        send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
-                    }
+                    if(!it->getInviteList(user.getClientSocket()))
+                        errMesageSend(user.getClientSocket(), ERR_INVITEONLYCHAN(channel));
                 }
                 joinMsg = userIdentity + buff + "\r\n";
                 it->addClientList(user.getClientSocket());
@@ -65,18 +60,13 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                 it->newJoinMsg(user.getClientSocket(), userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
                 //channeldaki herkese katılan kişinin bilgisi gidicek. bundan emin değilim bakıcam.
             }
-            else{
-                errorMsg = ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME));
-                send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
-            }
-        }else{
-            errorMsg = ERR_INVALIDCHANNELNAME(channel);
-            send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
-        }
+            else
+                errMesageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));
+        }else
+            errMesageSend(user.getClientSocket(), ERR_INVALIDCHANNELNAME(channel));
     }else {
         std::string token = "JOIN";
-        errorMsg = ERR_NEEDMOREPARAMS(token);
-        send(user.getClientSocket(), errorMsg.c_str(), errorMsg.length(), 0);
+        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
     }
 }
 

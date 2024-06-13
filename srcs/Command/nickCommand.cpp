@@ -2,8 +2,7 @@
 
 static bool invalidNick(std::string input, int clientFd){
 	if(input.find(':') != std::string::npos || input.find(' ') != std::string::npos || input.at(0) == '#' || isnumber(input.at(0))){
-		std::string errorMsg = ERR_ERRONEUSNICKNAME(input);
-		send(clientFd, errorMsg.c_str(), errorMsg.length(), 0);
+		errMesageSend(clientFd, ERR_ERRONEUSNICKNAME(input));
 		return true;
 	}
 	else
@@ -14,13 +13,11 @@ static bool nickUnique(std::string input, int clientFD, std::map<int, User> &cli
 	std::map<int, User>::iterator it = clientList.begin();
 	while(it != clientList.end()){
 		if(it->second.getName(USER_NICK_NAME) == input){
-			std::string errorMSG = ERR_NICKNAMEINUSE(input) + " : Nickname is already in use.\r\n";
 			if(clientFD == it->first){
-				errorMSG = ERR_NICKNAMEINUSE(input) + " :This nickname is used by you.\r\n";
-				send(clientFD, errorMSG.c_str(), errorMSG.length(), 0);
+        		errMesageSend(clientFD, ERR_NICKNAMEINUSE(input) + " :This nickname is used by you.\r\n");
 				return false;
 			}
-			send(clientFD, errorMSG.c_str(), errorMSG.length(), 0);
+			errMesageSend(clientFD, ERR_NICKNAMEINUSE(input) + " : Nickname is already in use.\r\n");
 			return false;
 		}
 		it++;
@@ -30,6 +27,7 @@ static bool nickUnique(std::string input, int clientFD, std::map<int, User> &cli
 
 void commandNick(std::istringstream &iss, User &client, std::map<int, User> &clientList){
 	std::string nick;
+
 	if(iss >> nick){
 		std::cout << "|" << nick << "|" << std::endl;
 		if(invalidNick(nick, client.getClientSocket()))
@@ -40,5 +38,8 @@ void commandNick(std::istringstream &iss, User &client, std::map<int, User> &cli
 			std::string changeMSG = client.getName(USER_NICK_NAME) + " "
 		} */
 		client.setName(USER_NICK_NAME, nick);
+	}else{
+		std::string token = "NICK";
+        errMesageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 	}
 }

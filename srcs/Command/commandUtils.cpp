@@ -11,3 +11,7 @@ std::string fullMsg(std::istringstream &iss){
 	}
 	return result;
 }
+
+void errMesageSend(int targetFd, std::string errMsg){
+	send(targetFd, errMsg.c_str(), errMsg.length(), 0);
+}
