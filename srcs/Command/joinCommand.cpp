@@ -10,17 +10,17 @@ static void createChannel(std::string buff, std::string channelName, std::string
         channelList.push_back(Channel(channelName, "&", user.getClientSocket()));
     std::list<Channel>::iterator it = getChannel(channelList, channelName);
     it->addModerator(user.getClientSocket());
-    joinMsg = userIdentity + buff + "\r\n";
+    joinMsg = userIdentity + " JOIN " + channelName + "\r\n";
+    send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
     modeMsg = "MODE " + channelName +  " +o " + user.getName(USER_NICK_NAME) + "\r\n";
     if(!key.empty()){
         it->setKeyExist(true);
         it->setKey(key);
         it->addChannelMode("+k");
     }
-    send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
     send(user.getClientSocket(), modeMsg.c_str(), modeMsg.length(), 0);
     if(!key.empty()){
-        modeMsg = "MODE " + channelName +  " +k " + key + "\r\n";
+        modeMsg = userIdentity + " MODE " + channelName +  " +k " + key + "\r\n";
         send(user.getClientSocket(), modeMsg.c_str(), modeMsg.length(), 0);
     }
 }
