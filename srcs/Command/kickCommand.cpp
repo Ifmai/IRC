@@ -4,7 +4,6 @@ void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User 
     std::string channel;
     std::string kickedUserName;
     std::string kickMessage;
-    std::string userIdentity = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
 
     std::map<int, User>::iterator kickedUser;
     if(iss >> channel){
@@ -19,9 +18,9 @@ void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User 
                             kickMessage = DEFAULT_KICK_MSG(channel, user.getName(USER_NICK_NAME));
                         else
                             kickedUserName = " .Kicked By. " + user.getName(USER_NICK_NAME) + "\r\n";
-                        std::string allmsg = userIdentity+ " KICK " + channel + " " + kickedUserName + "\r\n";
+                        //std::string allmsg = user.getIDENTITY() + " KICK " + channel + " " + kickedUserName + "\r\n";
                         send(kickedUser->second.getClientSocket(), kickMessage.c_str(), kickMessage.length(), 0);
-                        ch->sendAllMsg(allmsg);
+                        ch->sendAllMsg(user.getIDENTITY() + " KICK " + channel + " " + kickedUserName + "\r\n");
                         ch->removeClientList(kickedUser->second.getClientSocket());
                     }else
                         errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(channel));

@@ -1,5 +1,8 @@
 #include "../../include/IRC.hpp"
 
+
+//BU SİKTİĞİMİN KOD KSIMI ÇALIŞMIYOR KONTROL EDİLCEK.
+
 static std::string writeList(std::list<Channel> &channelList, int count){
     std::string listChannel;
     std::list<Channel>::iterator ch = channelList.begin();

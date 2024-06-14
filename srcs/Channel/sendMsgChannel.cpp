@@ -31,7 +31,7 @@ void Channel::newJoinMsgALL(std::map<int, User> userList){
 			if(*sender != *othersender){
 				channelModes = this->channelMode.begin();
 				client = userList.find(*othersender);
-				userInfo = IDENTIY_USER(client->second.getName(USER_NICK_NAME), client->second.getName(USER_NAME), client->second.getName(USER_HOST_INFO));
+				userInfo = client->second.getIDENTITY();
 				msgJOIN = userInfo + " JOIN " + this->channelName + "\r\n";
 				send(*sender, msgJOIN.c_str(), msgJOIN.length(), 0);
 				if(this->checkClientMode(client->second.getClientSocket())){
@@ -68,7 +68,7 @@ void Channel::newJoinMsg(int userFd, std::map<int, User> userList){
 		if(userFd != *sender){
 			channelModes = this->channelMode.begin();
 			client = userList.find(*sender);
-			userInfo = IDENTIY_USER(client->second.getName(USER_NICK_NAME), client->second.getName(USER_NAME), client->second.getName(USER_HOST_INFO));
+			userInfo = client->second.getIDENTITY();
 			msgJOIN = userInfo + " JOIN " + this->channelName + "\r\n";
 			send(userFd, msgJOIN.c_str(), msgJOIN.length(), 0);
 			if(this->checkClientMode(client->second.getClientSocket())){
@@ -101,12 +101,3 @@ void Channel::writeClientList(int sendFd, std::map<int, User> &userList){
 	sendMsg += "\r\n";
     send(sendFd, sendMsg.c_str(), sendMsg.length(), 0);
 }
-
-/* for (size_t j = 0; j < server->getChannels()[i].clients.size() - 1; j++)
-{
-	sender(client->client_fd, Prefix(server->getChannels()[i].clients[j]) + " JOIN " + channel + "\r\n");
-	if (server->getChannels()[i].clients[j].isOperator)
-	{
-		sender(client->client_fd, "MODE " + channel + " +o " + server->getChannels()[i].clients[j].nickname + "\r\n");
-	}
-} */

@@ -28,13 +28,11 @@
 			~User();
 
 			int 		getClientSocket();
-			//std::string getUserName();
-			//std::string getNickName();
-			//std::string getrealName();
 			std::string gethostInfo();
 			std::string getName(int nameType); //Name Type Defined in User.hpp top side.
 			std::string	getPassword();
 			bool		getIsAuth();
+			std::string getIDENTITY();
 
 			void		setIsAuth(bool input);
 			void		setPassword(std::string pass);

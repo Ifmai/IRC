@@ -19,9 +19,10 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 	}
 	else{
 		data->buff[data->nbytes] = '\0';
-		std::cout << "Client : " << userFD << " -> request : \"" << data->buff << "\"" << std::endl;
+		std::cout << "Client : " << userFD << " -> request : \"" << data->buff - 1 << "\"" << std::endl;
 		std::istringstream iss(data->buff);
 		std::string token;
+
 		while(iss >> token){
 			if(token == "PASS")
 				commandPass(iss, client, clientList, data);
@@ -41,7 +42,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 			if(client.getIsAuth() && token == "PRIVMSG")
 				commandMSG(token, iss, client,clientList, channelList);
 			else if(client.getIsAuth() && token == "JOIN")
-				commandJoin(data->buff, iss, channelList, client, clientList);
+				commandJoin(iss, channelList, client, clientList);
 			else if(client.getIsAuth() && token == "TOPIC")
 				commandTopic(iss ,channelList, client);
 			else if(client.getIsAuth() && token == "KICK")

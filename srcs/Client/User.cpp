@@ -68,6 +68,10 @@ std::string User::getName(int nameType){
 	}
 }
 
+std::string User::getIDENTITY(){
+	return (":" + this->nickName + "!" + this->userName + "@" + this->hostInfo + " ");
+}
+
 //Set Member
 void User::setIsAuth(bool input){
 	this->isAuth = input;
@@ -105,3 +109,4 @@ std::map<int, User>::iterator searchNick(const std::string &nick, std::map<int, 
 	}
 	return clientList.end();
 }
+

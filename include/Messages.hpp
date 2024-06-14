@@ -23,6 +23,7 @@
 	#define ERR_USERNOTINCHANNEL(nick, channel) (": 441 " + nick + " " + channel + " :They aren't on that channel\r\n")
 	#define ERR_CHANOPRIVSNEEDED(channel) (": 482 " + channel + " :You're not channel operator\r\n")
 	#define RPL_INVITING(nick, channel) (": 341 " + nick + " " + channel + " :Invite is successful\r\n")
-	#define IDENTIY_USER(nickname,username,hostinfo) (":" + nickname + "!" + username + "@" + hostinfo + " ")
+
+	
 	#define LOGIN(nickname, username,hostinfo) (": 001 " + nickname + " :Welcome to the IRC Network " + nickname + "!" + username + "@" +hostinfo + "\r\n")
 #endif

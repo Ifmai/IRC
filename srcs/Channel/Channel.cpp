@@ -230,6 +230,6 @@ void Channel::checkModerator(std::map<int, User> &userList){
         std::map<int, User>::iterator us;
         std::string modeMsg;
         us = userList.find(*this->clientList.begin());
-        modeMsg = IDENTIY_USER(us->second.getName(USER_NICK_NAME), us->second.getName(USER_NAME), us->second.getName(USER_HOST_INFO)) + " MODE " + this->getName() + " +o " + us->second.getName(USER_NICK_NAME) + "\r\n";
+        modeMsg = us->second.getIDENTITY() + " MODE " + this->getName() + " +o " + us->second.getName(USER_NICK_NAME) + "\r\n";
     }
 }

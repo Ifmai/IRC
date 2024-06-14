@@ -3,7 +3,7 @@
 static void createChannel(std::string channelName, std::string key, std::list<Channel> &channelList, User &user){
     std::string joinMsg;
     std::string modeMsg;
-    std::string userIdentity = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
+    std::string userIdentity = user.getIDENTITY();
     if(channelName.at(0) == '#')
         channelList.push_back(Channel(channelName, "#", user.getClientSocket()));
     else if(channelName.at(0) == '&')
@@ -25,11 +25,10 @@ static void createChannel(std::string channelName, std::string key, std::list<Ch
     }
 }
 
-void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
+void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
     std::string channel;
     std::string joinMsg;
-    std::string userIdentity = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
-    joinMsg = buff;
+    //joinMsg = buff;
     
     if(iss >> channel){
         if(channel.at(0) == '#' || channel.at(0) == '&'){
@@ -52,7 +51,7 @@ void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &
                         return ;
                     }
                 }
-                joinMsg = userIdentity + " JOIN " + it->getName() + "\r\n";                 
+                joinMsg = user.getIDENTITY() + " JOIN " + it->getName() + "\r\n";                 
                 it->addClientList(user.getClientSocket());
                 send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
                 std::string topic = it->getTopic();

@@ -3,6 +3,7 @@
 void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User &user){
 	std::string channel;
 	std::string topic;
+	
 	if(iss >> channel){
 		if(channel.at('#') || channel.at('&')){
 			std::list<Channel>::iterator ch = getChannel(channelList, channel);

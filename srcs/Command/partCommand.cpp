@@ -6,14 +6,13 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
     std::string channel;
     std::string reason;
     std::string token = "PART";
-    std::string userInfo = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
 
     if(iss >> channel){
         ch = getChannel(channelList, channel);
         if(ch != channelList.end()){
             if(ch->checkClient(user.getClientSocket())){
                 iss >> reason;
-                ch->sendAllMsg(userInfo + " PART " + channel + " " +(reason.empty() ? "" : reason) + "\r\n");
+                ch->sendAllMsg(user.getIDENTITY() + " PART " + channel + " " +(reason.empty() ? "" : reason) + "\r\n");
                 ch->removeClientList(user.getClientSocket());
                 if(ch->checkClientMode(user.getClientSocket())){
                     ch->removeModerator(user.getClientSocket());

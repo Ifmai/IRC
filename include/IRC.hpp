@@ -13,7 +13,6 @@
 
 
 	#include "Channel.hpp"
-	#include "Messages.hpp"
 
 	#define BACKLOG 100
 	#define BUFFER_SIZE 512
@@ -34,8 +33,6 @@
 		int					serverSocket; // server socket.
 		int					newClientSocket; // new user.
 
-		//std::map<int, User>::iterator	userIT;
-		//std::list<Channel>::iterator	channelIT;
 	}						t_IRC_DATA;
 
 	//Arguman Checking
@@ -45,6 +42,7 @@
 
 	//IRC
 	void ircStart(t_IRC_DATA *data);
+
 	void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User> &clientList, std::list<Channel> &channelList);
 		void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList);
 		void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList);
@@ -54,7 +52,7 @@
 		void commandPing(std::string pingMessage, User &user);
 
 		void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList, std::list<Channel> channelList);
-		void commandJoin(std::string buff, std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
+		void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
 		void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User &user);
 		void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &clientList);
 		void commandList(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);

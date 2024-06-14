@@ -5,9 +5,9 @@ void commandMSG(std::string &token, std::istringstream &iss, User &client, std::
 	std::string msg;
 
 	if(iss >> target){
-		std::string userIdentity = IDENTIY_USER(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.getName(USER_HOST_INFO));
 		std::string sendMsg = fullMsg(iss);
-		msg = userIdentity + token + " " + target + " :" + sendMsg + "\r\n";
+
+		msg = client.getIDENTITY() + token + " " + target + " :" + sendMsg + "\r\n";
 		if(target.at(0) == '#' || target.at(0) == '&'){ // Channel
 			std::list<Channel>::iterator ch = getChannel(channelList, target);
 			if(ch->checkClient(client.getClientSocket()))

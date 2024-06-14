@@ -6,9 +6,10 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 	std::string mode;
 	std::string modeParemeters;
 	std::string token = "MODE";
-	std::string userInfo = IDENTIY_USER(user.getName(USER_NICK_NAME), user.getName(USER_NAME), user.getName(USER_HOST_INFO));
+	std::string userInfo = user.getIDENTITY();
 	std::list<Channel>::iterator ch;
 	std::map<int, User>::iterator targetUser;
+	
 	if(iss >> target){
 		if(target.at(0) == '#'){
 			ch = getChannel(channelList, target);
