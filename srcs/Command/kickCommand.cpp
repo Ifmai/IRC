@@ -22,6 +22,8 @@ void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User 
                         send(kickedUser->second.getClientSocket(), kickMessage.c_str(), kickMessage.length(), 0);
                         ch->sendAllMsg(user.getIDENTITY() + " KICK " + channel + " " + kickedUserName + "\r\n");
                         ch->removeClientList(kickedUser->second.getClientSocket());
+                        if(ch->checkClientMode(kickedUser->second.getClientSocket()))
+                            ch->removeModerator(kickedUser->second.getClientSocket());
                     }else
                         errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(channel));
                 }else{

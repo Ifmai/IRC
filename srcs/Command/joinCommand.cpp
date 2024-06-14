@@ -48,6 +48,8 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
                         errMesageSend(user.getClientSocket(), ERR_INVITEONLYCHAN(channel));
                         return ;
                     }
+                    else //invite edilip join atarsa invite listesinden çıkıcak.
+                        it->removeInviteList(user.getClientSocket());
                 }
                 joinMsg = user.getIDENTITY() + " JOIN " + it->getName() + "\r\n";                 
                 it->addClientList(user.getClientSocket());

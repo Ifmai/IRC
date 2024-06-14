@@ -15,8 +15,6 @@ void commandQuit(std::istringstream &iss, User &user, std::list<Channel> &channe
                 ch->checkModerator(userList);
             }
         }
-        if(ch->getInviteList(user.getClientSocket()))
-            ch->removeInviteList(user.getClientSocket());
         ch++;
     }
     send(user.getClientSocket(), quitmsg.c_str(), quitmsg.length(), 0);
