@@ -28,7 +28,6 @@ static void createChannel(std::string channelName, std::string key, std::list<Ch
 void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
     std::string channel;
     std::string joinMsg;
-    //joinMsg = buff;
     
     if(iss >> channel){
         if(channel.at(0) == '#' || channel.at(0) == '&'){
@@ -38,7 +37,6 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
             if(it == channelList.end())
                 createChannel(channel, key, channelList, user);
             else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
-                std::cout << "gelen key : " << key << std::endl;
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
                     if(key.empty() || key != it->getKey()){
                         errMesageSend(user.getClientSocket(), ERR_BADCHANNELKEY(channel));
@@ -62,8 +60,7 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
                     std::string msgTopic = RPL_NOTOPIC(channel);
                     send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
                 }
-                it->newJoinMsg(user.getClientSocket(), userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
-                it->newJoinMsgALL(userList);
+                it->newJoinMsg(user, userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
             }
             else
                 errMesageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));

@@ -31,9 +31,9 @@
 
             void        sendMsgChannel(std::string msg, int senderFd);
             void        sendAllMsg(std::string msg);
-            void        newJoinMsg(int userFd, std::map<int, User> userList);
+            void        newJoinMsg(User &user, std::map<int, User> userList);
             void        writeClientList(int sendFd, std::map<int, User> &userList);
-            void        newJoinMsgALL(std::map<int, User> userList);
+            //void        newJoinMsgALL(std::map<int, User> userList);
             void        checkModerator(std::map<int, User> &userList);
 
             void        printChannelMode(){
