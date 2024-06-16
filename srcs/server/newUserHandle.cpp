@@ -1,6 +1,5 @@
 #include "../../include/IRC.hpp"
 
-//user sınıfına uygun yazılacak vb. düzenleme ve ekleme yapılcak.
 void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList){
 	data->addrLen = sizeof(data->remoteAddr);
 	if((data->newClientSocket = accept(data->serverSocket, (struct sockaddr *)&data->remoteAddr, &data->addrLen)) == -1)

@@ -8,7 +8,7 @@ Channel::Channel(std::string name, std::string type, int clientFd){
     this->isPublic = true;
     this->isInvite = false;
     this->keyExist = false;
-    //eklemeler yapılcak bunların hepsine channela baya bir şey ekledim.
+    //"eklemeler yapılcak bunların hepsine channela baya bir şey ekledim."
 }
 
 Channel::Channel(const Channel& copy){
@@ -226,7 +226,7 @@ int Channel::getClientListSize(){
 void Channel::checkModerator(std::map<int, User> &userList){
     std::cout << "selam bro" << std::endl;
     if(this->clientList.size() > 0 && this->channelModerator.size() == 0){
-        // atama yapmıyor.
+        //"atama yapmıyor."
         std::map<int, User>::iterator us;
         std::string modeMsg;
         us = userList.find(*this->clientList.begin());

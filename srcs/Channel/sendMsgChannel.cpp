@@ -30,10 +30,10 @@ void Channel::newJoinMsg(User &user, std::map<int, User> userList){
 	while(sender != this->clientList.end()){
 		if(user.getClientSocket() != *sender){
 			channelModes = this->channelMode.begin();
-			client = userList.find(*sender);// *sender'ı buluyorum
-			userInfo = client->second.getIDENTITY(); // bertay12 nin bilgileirni laıyorum
-			msgJOIN = userInfo + " JOIN " + this->channelName + "\r\n"; // bertay12 katıldı diyorum burada
-			send(user.getClientSocket(), msgJOIN.c_str(), msgJOIN.length(), 0); // ALP12 E GÖNDERİYORUM BERTAYIN KATILDIĞINI
+			client = userList.find(*sender);
+			userInfo = client->second.getIDENTITY(); 
+			msgJOIN = userInfo + " JOIN " + this->channelName + "\r\n";
+			send(user.getClientSocket(), msgJOIN.c_str(), msgJOIN.length(), 0);
 			msgJOIN = user.getIDENTITY() + " JOIN " + this->channelName + "\r\n";
 			send(*sender, msgJOIN.c_str(), msgJOIN.length(), 0);
 			if(this->checkClientMode(client->second.getClientSocket())){

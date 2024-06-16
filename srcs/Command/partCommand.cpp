@@ -28,7 +28,5 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
 }
 
 
-//chanlledaki remove dan sonra remove içinde mod check at. eğer çıkan kişi modsa ve başka mod kalmadıysa. clieentListdeki sonraki kişi mod olara
-//atama işlemi yap.
-
-//fatih'e nasıl channel siliniyor sor.
+//"chanlledaki remove dan sonra remove içinde mod check at. eğer çıkan kişi modsa ve başka mod kalmadıysa. clieentListdeki sonraki kişi mod olara
+//atama işlemi yap."

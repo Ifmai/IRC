@@ -1,7 +1,6 @@
 #include "../../include/IRC.hpp"
 
 
-//düzenlenicek parserler eklenicek commandler vb.
 
 void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList){
 	close(userFD);

@@ -62,7 +62,7 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
                     std::string msgTopic = RPL_NOTOPIC(channel);
                     send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
                 }
-                it->newJoinMsg(user, userList);//join olan kişi için channeldaki kişilerin mod ve kimler olduğuna dair mesaj gidicek
+                it->newJoinMsg(user, userList);//"GALİBA MOD MESAJLARI ÇİFT GİDİYOR"
             }
             else
                 errMesageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));
