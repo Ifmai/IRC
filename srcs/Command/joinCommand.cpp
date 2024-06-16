@@ -56,8 +56,8 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
                 it->addClientList(user.getClientSocket());
                 messageSend(user.getClientSocket(), user.getIDENTITY() + " JOIN " + it->getName() + "\r\n");
                 sendTopic(it, user);
-                it->newJoinMsg(user, userList);//"GALİBA MOD MESAJLARI ÇİFT GİDİYOR"
-                //Bunu Başka yere taşıyabilirim.
+                it->newJoinMsg(user, userList);
+                //"Bunu Başka yere taşıyabilirim. MOD #ALSO ve WHO #also komutlarını yazarak."
             }
             else
                 messageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));

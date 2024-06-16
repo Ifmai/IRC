@@ -1,7 +1,5 @@
 #include "../../include/IRC.hpp"
 
-//"ABORT ALIYOR."
-
 static std::string writeList(std::list<Channel> &channelList, int count, char token){
     std::string listChannel;
     std::list<Channel>::iterator ch = channelList.begin();
