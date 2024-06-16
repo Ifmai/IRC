@@ -226,10 +226,12 @@ int Channel::getClientListSize(){
 void Channel::checkModerator(std::map<int, User> &userList){
     std::cout << "selam bro" << std::endl;
     if(this->clientList.size() > 0 && this->channelModerator.size() == 0){
-        //std::cout << "GİRDİM AMA HİÇ BİR ŞEY YAPMADIM MAŞL AĞLA" << std::endl;
+        // atama yapmıyor.
         std::map<int, User>::iterator us;
         std::string modeMsg;
         us = userList.find(*this->clientList.begin());
+        std::cout << us->second.getClientSocket() << " " << us->second.gethostInfo() << std::endl;
         modeMsg = us->second.getIDENTITY() + " MODE " + this->getName() + " +o " + us->second.getName(USER_NICK_NAME) + "\r\n";
+        std::cout << "MODE MSH: " << modeMsg << std::endl;
     }
 }

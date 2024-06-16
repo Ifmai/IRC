@@ -3,9 +3,9 @@
 void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User &user){
 	std::string channel;
 	std::string topic;
-	
+
 	if(iss >> channel){
-		if(channel.at('#') || channel.at('&')){
+		if(channel.at(0) == '#' || channel.at(0) == '&'){
 			std::list<Channel>::iterator ch = getChannel(channelList, channel);
 			if(ch != channelList.end()){
 				if(ch->checkClient(user.getClientSocket())){
@@ -16,8 +16,8 @@ void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User
             			ch->sendAllMsg(topic);
 					}
 					else if(topic.length() > 1){
-						if(topic.at(0) == ':')
-							topic.erase(0);
+/* 						if(topic.at(0) == ':')
+							topic.erase(0); */
 						ch->setTopic(topic);
 						std::string msgTopic = RPL_TOPIC(user.getName(USER_NICK_NAME), channel, topic);
 						ch->sendAllMsg(msgTopic);

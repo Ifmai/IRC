@@ -19,7 +19,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 	}
 	else{
 		data->buff[data->nbytes] = '\0';
-		std::cout << "Client : " << userFD << " -> request : \"" << data->buff - 1 << "\"" << std::endl;
+		std::cout << "Client : " << userFD << " -> request : \"" << data->buff << "\"" << std::endl;
 		std::istringstream iss(data->buff);
 		std::string token;
 

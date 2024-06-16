@@ -30,10 +30,13 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 										errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
 										return ;
 									}
+									ch->setKeyExist(true);
 									ch->setKey(modeParemeters);
 								}
-								else
+								else{
+									ch->setKeyExist(false);
 									ch->setKey("");
+								}
 								ch->sendAllMsg(userInfo + "MODE " + target + " " + mode + (modeParemeters.empty() ? "" : (" " + modeParemeters)) + "\r\n");
 							}
 							else if(mode.at(1) == 'o'){

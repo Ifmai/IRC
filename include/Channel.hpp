@@ -50,6 +50,14 @@
                     as++;
                 }
             }
+            void        printclientlist(){
+                std::list<int>::iterator as = this->clientList.begin();
+                while(as != this->clientList.end()){
+                    std::cout << "Mode İNVİTE LİST FD  " + this->getName() + " " + std::to_string(*as) << std::endl;
+                    as++;
+                }
+            }
+
 
             std::string getName();
             std::string getChannelType();
