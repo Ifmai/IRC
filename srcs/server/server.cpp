@@ -62,3 +62,8 @@ void ircStart(t_IRC_DATA *data){
 		}
 	}
 }
+
+//"Kontrollerimden çoğu test geçti şuan sadece bi notice yok."
+//"Belki keyfime göre ban listeside ekleyebilirim."
+//"Gelen Mode #also b sinimiri bozuyor."
+//NOTICE DE LAG CHECK GELMIYOR.

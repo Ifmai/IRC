@@ -40,7 +40,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 			if(client.getIsAuth() && token == "PRIVMSG")
 				commandMSG(token, iss, client,clientList, channelList);
 			else if(client.getIsAuth() && token == "JOIN")
-				commandJoin(iss, channelList, client, clientList);
+				commandJoin(iss, channelList, client);
 			else if(client.getIsAuth() && token == "TOPIC")
 				commandTopic(iss ,channelList, client);
 			else if(client.getIsAuth() && token == "KICK")

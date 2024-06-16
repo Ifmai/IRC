@@ -4,7 +4,7 @@ Channel::Channel(std::string name, std::string type, int clientFd){
     this->channelName = name;
     this->channelType = type;
     this->channelKey = "";
-    this->clientList.push_back(clientFd);
+    this->clientList.insert(std::pair<int, bool>(clientFd, false));
     this->channelTopic = "";
     this->changerTopic = "";
     this->isPublic = true;

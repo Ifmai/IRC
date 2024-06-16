@@ -16,7 +16,7 @@
             std::string                     channelType;
             std::list<std::string>          channelMode;
             std::string                     channelKey;
-            std::list<int>                  clientList;
+            std::map<int, bool>             clientList;
             std::list<int>                  inviteList;
             std::list<int>                  channelModerator;
             std::string                     channelTopic;
@@ -45,6 +45,7 @@
             bool        getInviteList(int fd);
             bool        getKeyExist();
             bool        getIsPublic();
+            bool        getJoinChannel(int fd);
             std::string getKey();
             std::string getTopic();
             std::string getChangerTopic();
@@ -56,6 +57,7 @@
             void        setKey(std::string input);
             void        setIsPublic(bool input);
             void        setKeyExist(bool input);
+            void        setJoinChannel(int fd);
             
             bool        checkClient(int fd);
             bool        checkClientMode(int fd);
@@ -68,7 +70,6 @@
             void        removeModerator(int fd);
             void        addClientList(int fd);
             void        removeClientList(int fd);
-            
     };
 
     std::list<Channel>::iterator getChannel(std::list<Channel> &channelList, std::string channel);

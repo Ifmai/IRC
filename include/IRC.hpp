@@ -52,7 +52,7 @@
 		void commandPing(std::string pingMessage, User &user);
 
 		void commandMSG(std::string &token, std::istringstream &iss, User &client, std::map<int, User> &clientList, std::list<Channel> channelList);
-		void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
+		void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user);
 		void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User &user);
 		void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &clientList);
 		void commandList(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);

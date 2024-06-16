@@ -34,7 +34,7 @@ static void modeChannelOp(std::string &targetName, const char sign, const std::s
 			else
 				channelList.erase(ch); // Delete Channel.
 		}
-		ch->sendAllMsg(user.getClientSocket() + "MODE " + ch->getName() + " " + sign + "o" + (targetName.empty() ? "" : (" " + targetName)) + "\r\n");
+		ch->sendAllMsg(user.getIDENTITY() + "MODE " + ch->getName() + " " + sign + "o" + (targetName.empty() ? "" : (" " + targetName)) + "\r\n");
 	}else
 		messageSend(user.getClientSocket(), ERR_NOSUCHNICK(targetName));
 }
@@ -57,6 +57,7 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 	else if(!ch->checkClient(user.getClientSocket()))
 		messageSend(user.getClientSocket(), ERR_NOTONCHANNEL(target));
 	else{
+		iss >> mode;
 		if(!mode.empty() && mode != "b"){
 			if(!ch->checkClientMode(user.getClientSocket()))
 				messageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(target));
@@ -77,8 +78,16 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 					ch->removeChannelMode(mode);
 				}
 			}
+		}else if(!ch->getJoinChannel(user.getClientSocket()) && mode != "b")
+			ch->newJoinMsg(user, userList);
+		else if(mode == "b" && !ch->getJoinChannel(user.getClientSocket())){
+			ch->setJoinChannel(user.getClientSocket());
+			messageSend(user.getClientSocket(), ":BAN LIST EMPTY!\r\n");
 		}else{
-			
+			if(!ch->checkClientMode(user.getClientSocket()))
+				messageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(target));
+			else
+				messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
 		}
-	}	//"messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));"
+	}	
 }

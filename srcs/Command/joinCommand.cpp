@@ -28,7 +28,7 @@ static void sendTopic(std::list<Channel>::iterator &it, User &user){
         messageSend(user.getClientSocket(), RPL_NOTOPIC(it->getName()));
 }
 
-void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
+void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user){
     std::string channel;
     
     if(iss >> channel){
@@ -56,7 +56,7 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
                 it->addClientList(user.getClientSocket());
                 messageSend(user.getClientSocket(), user.getIDENTITY() + " JOIN " + it->getName() + "\r\n");
                 sendTopic(it, user);
-                it->newJoinMsg(user, userList);
+                //it->newJoinMsg(user, userList);
                 //"Bunu Başka yere taşıyabilirim. MOD #ALSO ve WHO #also komutlarını yazarak."
             }
             else

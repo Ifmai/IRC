@@ -2,29 +2,35 @@
 
 // CLIENT LIST 
 void Channel::addClientList(int fd){
-    this->clientList.push_back(fd);
+    this->clientList.insert(std::pair<int, bool>(fd,false));
 }
 
 void Channel::removeClientList(int fd){
-    std::list<int>::iterator it = this->clientList.begin();
-    while(it != clientList.end()){
-        if(*it == fd)
-            break;
-        it++;
-    }
+    std::map<int, bool>::iterator it;
+    
+    it = this->clientList.find(fd);
     if(it != this->clientList.end())
         this->clientList.erase(it);
 }
 
 bool Channel::checkClient(int fd){
-    std::list<int>::iterator find = this->clientList.begin();
-    std::list<int>::iterator it = this->clientList.end();
-    while(find != it){
-        if(*find == fd)
-            return true;
-        find++;
-    }
+    std::map<int, bool>::iterator it;
+
+    it = this->clientList.find(fd);
+    if(it != this->clientList.end())
+        return true;
     return false;
+}
+
+bool Channel::getJoinChannel(int fd){
+    return (this->clientList.find(fd))->second;
+}
+
+void Channel::setJoinChannel(int fd){
+    std::map<int, bool>::iterator it;
+
+    it = this->clientList.find(fd);
+    it->second = true;
 }
 // CLIENT LIST END.
 
@@ -58,7 +64,7 @@ bool Channel::checkClientMode(int fd){
 void Channel::ensureModeratorPresence(std::map<int, User> &userList){
     if(this->channelModerator.size() == 0){
         std::map<int, User>::iterator us;
-        us = userList.find(*this->clientList.begin());
+        us = userList.find((this->clientList.begin())->first);
         this->addModerator(us->second.getClientSocket());
         this->sendAllMsg(us->second.getIDENTITY() + " MODE " + this->getName() + " +o " + us->second.getName(USER_NICK_NAME) + "\r\n");
     }
