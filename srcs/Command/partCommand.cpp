@@ -14,10 +14,12 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
                 iss >> reason;
                 ch->sendAllMsg(user.getIDENTITY() + " PART " + channel + " " +(reason.empty() ? "" : reason) + "\r\n");
                 ch->removeClientList(user.getClientSocket());
-                ch->printclientlist();
                 if(ch->checkClientMode(user.getClientSocket())){
                     ch->removeModerator(user.getClientSocket());
-                    ch->checkModerator(userList);
+                    if(ch->getClientListSize() > 0)
+                        ch->ensureModeratorPresence(userList);
+                    else
+                        channelList.erase(ch); // Delete Channel.
                 }
             }else
                 errMesageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));

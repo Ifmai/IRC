@@ -10,6 +10,8 @@ SRC = ./srcs/main.cpp \
 	  ./srcs/Client/User.cpp \
 	  ./srcs/Channel/Channel.cpp \
 	  ./srcs/Channel/sendMsgChannel.cpp \
+	  ./srcs/Channel/ChannelSettingManagement.cpp \
+	  ./srcs/Channel/ChannelUserManagement.cpp \
 	  ./srcs/Command/nickCommand.cpp \
 	  ./srcs/Command/passCommand.cpp \
 	  ./srcs/Command/userCommand.cpp \

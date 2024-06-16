@@ -11,7 +11,6 @@ static void onlyInviteChannel(std::list<Channel>::iterator &ch, User &user,  std
         ch->addInviteList(targetUser->second.getClientSocket());
     }else
         errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(ch->getName()));
-    ch->printInviteList();
 }
 
 static void defaultInviteChannel(std::list<Channel>::iterator &ch, User &user,  std::map<int, User>::iterator targetUser){
@@ -22,7 +21,6 @@ static void defaultInviteChannel(std::list<Channel>::iterator &ch, User &user,  
     sendMsg = RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName());
     send(user.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
     ch->addInviteList(targetUser->second.getClientSocket());
-    ch->printInviteList();
 }
 
 void commandInvite(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){

@@ -12,7 +12,10 @@ void commandQuit(std::istringstream &iss, User &user, std::list<Channel> &channe
             ch->removeClientList(user.getClientSocket());
             if(ch->checkClientMode(user.getClientSocket())){
                 ch->removeModerator(user.getClientSocket());
-                ch->checkModerator(userList);
+                if(ch->getClientListSize() > 0)
+                        ch->ensureModeratorPresence(userList);
+                    else
+                        channelList.erase(ch); // Delete Channel.
             }
         }
         ch++;

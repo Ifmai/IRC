@@ -51,7 +51,10 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 									ch->addModerator(targetUser->second.getClientSocket());
 								else{
 									ch->removeModerator(targetUser->second.getClientSocket());
-									ch->checkModerator(userList);
+									if(ch->getClientListSize() > 0)
+										ch->ensureModeratorPresence(userList);
+									else
+										channelList.erase(ch); // Delete Channel.
 								}
 								ch->sendAllMsg(userInfo + "MODE " + target + " " + mode + (modeParemeters.empty() ? "" : (" " + modeParemeters)) + "\r\n");
 							}
@@ -61,7 +64,6 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 								mode[0] = '+';
 								ch->removeChannelMode(mode);
 							}
-							ch->printChannelMode();
 					}else
 						errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
 				}else{

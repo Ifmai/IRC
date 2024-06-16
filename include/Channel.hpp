@@ -8,6 +8,7 @@
 	#include <sys/socket.h>
 	#include "Messages.hpp"
 
+
     class Channel{
         private:
             std::string                     channelName;
@@ -33,43 +34,20 @@
             void        sendAllMsg(std::string msg);
             void        newJoinMsg(User &user, std::map<int, User> userList);
             void        writeClientList(int sendFd, std::map<int, User> &userList);
-            //void        newJoinMsgALL(std::map<int, User> userList);
-            void        checkModerator(std::map<int, User> &userList);
-
-            void        printChannelMode(){
-                std::list<std::string>::iterator as = this->channelMode.begin();
-                while(as != this->channelMode.end()){
-                    std::cout << "Mode Channel " + this->getName() + " " + *as << std::endl;
-                    as++;
-                }
-            }
-            void        printInviteList(){
-                std::list<int>::iterator as = this->inviteList.begin();
-                while(as != this->inviteList.end()){
-                    std::cout << "Mode İNVİTE LİST FD  " + this->getName() + " " + std::to_string(*as) << std::endl;
-                    as++;
-                }
-            }
-            void        printclientlist(){
-                std::list<int>::iterator as = this->clientList.begin();
-                while(as != this->clientList.end()){
-                    std::cout << "Mode İNVİTE LİST FD  " + this->getName() + " " + std::to_string(*as) << std::endl;
-                    as++;
-                }
-            }
+            void        ensureModeratorPresence(std::map<int, User> &userList);
 
 
+            bool        getChannelMode(std::string mode);
             std::string getName();
             std::string getChannelType();
+            bool        getisInvite();
+            bool        getInviteList(int fd);
+            bool        getKeyExist();
+            bool        getIsPublic();
             std::string getKey();
             std::string getTopic();
             std::string getChangerTopic();
             int         getClientListSize();
-            bool        getKeyExist();
-            bool        getisInvite();
-            bool        getChannelMode(std::string mode);
-            bool        getIsPublic();
-            bool        getInviteList(int fd);
 
 
             void        setChangerTopic(std::string nick);
@@ -92,10 +70,6 @@
             
     };
 
-    bool checkList(std::string channel, std::list<Channel> &channelList);
     std::list<Channel>::iterator getChannel(std::list<Channel> &channelList, std::string channel);
 
 #endif
-
-// # standart kanal türü. 
-// & sadece aynı local sunucudaki clientlerin girebildiği sunucu tipi.
