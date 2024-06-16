@@ -22,13 +22,11 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
                         channelList.erase(ch); // Delete Channel.
                 }
             }else
-                errMesageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
+                messageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
         }else
-            errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
+            messageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
     }else
-        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }
 
-
-//"chanlledaki remove dan sonra remove içinde mod check at. eğer çıkan kişi modsa ve başka mod kalmadıysa. clieentListdeki sonraki kişi mod olara
-//atama işlemi yap."
+//"CHANNELDA KİMSE KALMAMIŞSA KANALI SİL."

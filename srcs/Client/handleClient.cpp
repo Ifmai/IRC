@@ -31,8 +31,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandUser(iss, client);
 			if(!client.getPassword().empty() && !client.getName(USER_NAME).empty() && !client.getName(USER_NICK_NAME).empty() && !client.getIsAuth()){
 				client.setIsAuth(true);
-				std::string loginMSG = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo());
-				send(client.getClientSocket(), loginMSG.c_str(), loginMSG.length(), 0);
+				messageSend(client.getClientSocket(), LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo()));
 			}
 			else if(token == "PING" && client.getIsAuth()){
 				std::string msg = data->buff;
@@ -46,7 +45,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandTopic(iss ,channelList, client);
 			else if(client.getIsAuth() && token == "KICK")
 				commandKick(iss, channelList, client, clientList);
-			else if(client.getIsAuth() && token == "KICK")
+			else if(client.getIsAuth() && token == "LIST")
 				commandList(iss, channelList, client, clientList);
 			else if(client.getIsAuth() && token == "INVITE")
 				commandInvite(iss, channelList, client, clientList);

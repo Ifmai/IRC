@@ -38,15 +38,15 @@ void commandList(std::istringstream &iss, std::list<Channel> &channelList, User 
                     sendMsg = "No suitable channel found\r\n";
                 else
                     sendMsg.append("\r\n");
-                send(user.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
+                messageSend(user.getClientSocket(), sendMsg);
             }else
-                errMesageSend(user.getClientSocket(), ">4, ONLY NUMBER\r\n");
+                messageSend(user.getClientSocket(), ">4, ONLY NUMBER\r\n");
         }else if(channel.at(0) == '#' || channel.at(0) == '&'){
             ch = getChannel(channelList, channel);
             ch->writeClientList(user.getClientSocket(), userList);
         }
     }else{
         std::string token = "LIST";
-        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
     }
 }

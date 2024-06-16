@@ -1,25 +1,21 @@
 #include "../../include/IRC.hpp"
 
 static void onlyInviteChannel(std::list<Channel>::iterator &ch, User &user,  std::map<int, User>::iterator targetUser){
-    std::string sendMsg;
-
     if(ch->checkClientMode(user.getClientSocket())){
-        sendMsg = targetUser->second.getIDENTITY() + " INVITE " + targetUser->second.getName(USER_NICK_NAME) + " " + ch->getName() + "\r\n";
-        send(targetUser->second.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
-        sendMsg = RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName());
-        send(user.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
+        messageSend(targetUser->second.getClientSocket(), \
+            targetUser->second.getIDENTITY() + " INVITE " + targetUser->second.getName(USER_NICK_NAME) + " " + ch->getName() + "\r\n");
+        
+        messageSend(user.getClientSocket(), RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName()));
         ch->addInviteList(targetUser->second.getClientSocket());
     }else
-        errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(ch->getName()));
+        messageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(ch->getName()));
 }
 
 static void defaultInviteChannel(std::list<Channel>::iterator &ch, User &user,  std::map<int, User>::iterator targetUser){
-    std::string sendMsg;
-
-    sendMsg = targetUser->second.getIDENTITY(); + " INVITE " + targetUser->second.getName(USER_NICK_NAME) + " " + ch->getName() + "\r\n";
-    send(targetUser->second.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
-    sendMsg = RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName());
-    send(user.getClientSocket(), sendMsg.c_str(), sendMsg.length(), 0);
+    messageSend(targetUser->second.getClientSocket(), \
+        targetUser->second.getIDENTITY() + " INVITE " + targetUser->second.getName(USER_NICK_NAME) + " " + ch->getName() + "\r\n");
+    
+    messageSend(user.getClientSocket(),  RPL_INVITING(user.getName(USER_NICK_NAME), ch->getName()));
     ch->addInviteList(targetUser->second.getClientSocket());
 }
 
@@ -42,17 +38,17 @@ void commandInvite(std::istringstream &iss, std::list<Channel> &channelList, Use
                             else
                                 defaultInviteChannel(ch, user, targetUser);
                         }else
-                            errMesageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
+                            messageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
                     }else
-                        errMesageSend(user.getClientSocket(), ERR_USERONCHANNEL(inviteUser, channel));
+                        messageSend(user.getClientSocket(), ERR_USERONCHANNEL(inviteUser, channel));
                 }else
-                    errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
+                    messageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
             }else
-                errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
+                messageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
         }else
-                errMesageSend(user.getClientSocket(), ERR_NOSUCHNICK(inviteUser));
+                messageSend(user.getClientSocket(), ERR_NOSUCHNICK(inviteUser));
     }else{
         std::string token = "LIST";
-        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
     }
 }

@@ -63,6 +63,6 @@
 	
 	//Comand Utils
 	std::string fullMsg(std::istringstream &iss);
-	void errMesageSend(int targetFd, std::string errMsg);
+	void messageSend(int targetFd, std::string msg);
 	void sendAllUserMsg(std::map<int, User> &userList, std::string &msg);
 #endif

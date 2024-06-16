@@ -10,8 +10,8 @@ void commandUser(std::istringstream &iss, User &client){
 			client.setName(USER_NAME, usrName);
 		}
 		else
-        	errMesageSend(client.getClientSocket(), ERR_ALREADYREGISTERED());
+        	messageSend(client.getClientSocket(), ERR_ALREADYREGISTERED());
 	}
 	else
-        errMesageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }

@@ -26,15 +26,15 @@ void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User
             			send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
 					}
 				}else
-        			errMesageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
+        			messageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));
 			}else
-        		errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
+        		messageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
 
 		}else
-        	errMesageSend(user.getClientSocket(), ERR_INVALIDCHANNELNAME(channel));
+        	messageSend(user.getClientSocket(), ERR_INVALIDCHANNELNAME(channel));
 	}else{
 		std::string token = "TOPIC";
-        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 	}
 
 }

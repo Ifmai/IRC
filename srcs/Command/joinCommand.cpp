@@ -10,24 +10,26 @@ static void createChannel(std::string channelName, std::string key, std::list<Ch
         channelList.push_back(Channel(channelName, "&", user.getClientSocket()));
     std::list<Channel>::iterator it = getChannel(channelList, channelName);
     it->addModerator(user.getClientSocket());
-    joinMsg = userIdentity + " JOIN " + channelName + "\r\n";
-    send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
-    modeMsg = "MODE " + channelName +  " +o " + user.getName(USER_NICK_NAME) + "\r\n";
+    messageSend(user.getClientSocket(), userIdentity + " JOIN " + channelName + "\r\n");
+    messageSend(user.getClientSocket(), "MODE " + channelName +  " +o " + user.getName(USER_NICK_NAME) + "\r\n");
     if(!key.empty()){
         it->setKeyExist(true);
         it->setKey(key);
         it->addChannelMode("+k");
+        messageSend(user.getClientSocket(),userIdentity + " MODE " + channelName +  " +k " + key + "\r\n");
     }
-    send(user.getClientSocket(), modeMsg.c_str(), modeMsg.length(), 0);
-    if(!key.empty()){
-        modeMsg = userIdentity + " MODE " + channelName +  " +k " + key + "\r\n";
-        send(user.getClientSocket(), modeMsg.c_str(), modeMsg.length(), 0);
-    }
+}
+
+static void sendTopic(std::list<Channel>::iterator &it, User &user){
+    std::string topic = it->getTopic();
+    if(!topic.empty())
+        messageSend(user.getClientSocket(), RPL_TOPIC(it->getChangerTopic(), it->getName(), topic));
+    else
+        messageSend(user.getClientSocket(), RPL_NOTOPIC(it->getName()));
 }
 
 void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList){
     std::string channel;
-    std::string joinMsg;
     
     if(iss >> channel){
         if(channel.at(0) == '#' || channel.at(0) == '&'){
@@ -39,38 +41,31 @@ void commandJoin(std::istringstream &iss, std::list<Channel> &channelList, User 
             else if(it != channelList.end() && !it->checkClient(user.getClientSocket())){
                 if(it->getKeyExist() == true && it->getChannelMode("+k")){
                     if(key.empty() || key != it->getKey()){
-                        errMesageSend(user.getClientSocket(), ERR_BADCHANNELKEY(channel));
+                        messageSend(user.getClientSocket(), ERR_BADCHANNELKEY(channel));
                         return ;
                     }
                 }
                 if(it->getIsPublic() == false && it->getChannelMode("+i")){
                     if(!it->getInviteList(user.getClientSocket())){
-                        errMesageSend(user.getClientSocket(), ERR_INVITEONLYCHAN(channel));
+                        messageSend(user.getClientSocket(), ERR_INVITEONLYCHAN(channel));
                         return ;
                     }
                     else //invite edilip join atarsa invite listesinden çıkıcak.
                         it->removeInviteList(user.getClientSocket());
                 }
-                joinMsg = user.getIDENTITY() + " JOIN " + it->getName() + "\r\n";                 
                 it->addClientList(user.getClientSocket());
-                send(user.getClientSocket(), joinMsg.c_str(), joinMsg.length(), 0);
-                std::string topic = it->getTopic();
-                if(!topic.empty()){
-                    std::string msgTopic = RPL_TOPIC(it->getChangerTopic(), channel, topic);
-                    send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
-                }else{
-                    std::string msgTopic = RPL_NOTOPIC(channel);
-                    send(user.getClientSocket(), msgTopic.c_str(), msgTopic.length(), 0);
-                }
+                messageSend(user.getClientSocket(), user.getIDENTITY() + " JOIN " + it->getName() + "\r\n");
+                sendTopic(it, user);
                 it->newJoinMsg(user, userList);//"GALİBA MOD MESAJLARI ÇİFT GİDİYOR"
+                //Bunu Başka yere taşıyabilirim.
             }
             else
-                errMesageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));
+                messageSend(user.getClientSocket(), ERR_USERONCHANNEL(it->getName(), user.getName(USER_NICK_NAME)));
         }else
-            errMesageSend(user.getClientSocket(), ERR_INVALIDCHANNELNAME(channel));
+            messageSend(user.getClientSocket(), ERR_INVALIDCHANNELNAME(channel));
     }else {
         std::string token = "JOIN";
-        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
     }
 }
 

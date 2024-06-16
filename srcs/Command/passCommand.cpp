@@ -9,14 +9,14 @@ void commandPass(std::istringstream &iss, User &client, std::map<int, User> &cli
 			std::cout << "Client |" << client.getPassword() << "|" << std::endl;
 		}
 		else{
-        	errMesageSend(client.getClientSocket(), ERR_PASSWDMISMATCH());
+        	messageSend(client.getClientSocket(), ERR_PASSWDMISMATCH());
 			handleClientQuit(data, client.getClientSocket(), clientList);
 		}
 	}
 	else if (pass.empty() && !client.getIsAuth()){
 		std::string token = "PASS";
-        errMesageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 	}
 	else if(!client.getPassword().empty())
-        errMesageSend(client.getClientSocket(), ERR_ALREADYREGISTERED());
+        messageSend(client.getClientSocket(), ERR_ALREADYREGISTERED());
 }

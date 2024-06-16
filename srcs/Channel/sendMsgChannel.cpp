@@ -4,7 +4,7 @@ void Channel::sendMsgChannel(std::string msg, int senderFd){
 	std::list<int>::iterator sender = this->clientList.begin();
 	while(sender != this->clientList.end()){
 		if(*sender != senderFd)
-			send(*sender, msg.c_str(), msg.length(), 0);
+			messageSend(*sender, msg);
 		sender++;
 	}
 }
@@ -12,15 +12,13 @@ void Channel::sendMsgChannel(std::string msg, int senderFd){
 void Channel::sendAllMsg(std::string msg){
 	std::list<int>::iterator sender = this->clientList.begin();
 	while(sender != this->clientList.end()){
-			send(*sender, msg.c_str(), msg.length(), 0);
+			messageSend(*sender, msg);
 		sender++;
 	}
 }
 
 void Channel::newJoinMsg(User &user, std::map<int, User> userList){
 	std::string userInfo;
-	std::string msgJOIN;
-	std::string msgMODE;
 	std::string mode;
 
 	std::list<int>::iterator sender = this->clientList.begin();
@@ -32,25 +30,21 @@ void Channel::newJoinMsg(User &user, std::map<int, User> userList){
 			channelModes = this->channelMode.begin();
 			client = userList.find(*sender);
 			userInfo = client->second.getIDENTITY(); 
-			msgJOIN = userInfo + " JOIN " + this->channelName + "\r\n";
-			send(user.getClientSocket(), msgJOIN.c_str(), msgJOIN.length(), 0);
-			msgJOIN = user.getIDENTITY() + " JOIN " + this->channelName + "\r\n";
-			send(*sender, msgJOIN.c_str(), msgJOIN.length(), 0);
+			messageSend(user.getClientSocket(), userInfo + " JOIN " + this->channelName + "\r\n");
+			messageSend(*sender, user.getIDENTITY() + " JOIN " + this->channelName + "\r\n");
 			if(this->checkClientMode(client->second.getClientSocket())){
-				msgMODE = userInfo + " MODE " + this->channelName + " +o " + client->second.getName(USER_NICK_NAME) + "\r\n";
-				send(user.getClientSocket(), msgMODE.c_str(), msgMODE.length(), 0);
-			}
-			while(channelModes != this->channelMode.end()){
-				mode = *channelModes;
-				if(mode == "+k")
-					msgMODE = userInfo + " MODE " + this->channelName + " " + mode + " " + this->channelKey + "\r\n";
-				else
-					msgMODE = userInfo + " MODE " + this->channelName + " " + mode + "\r\n";
-				send(user.getClientSocket(), msgMODE.c_str(), msgMODE.length(), 0);
-				channelModes++;
+				messageSend(user.getClientSocket(), userInfo + " MODE " + this->channelName + " +o " + client->second.getName(USER_NICK_NAME) + "\r\n");
 			}
 		}
 		sender++;
+	}
+	while(channelModes != this->channelMode.end()){
+		mode = *channelModes;
+		if(mode == "+k")
+			messageSend(user.getClientSocket()," MODE " + this->channelName + " " + mode + " " + this->channelKey + "\r\n");
+		else
+			messageSend(user.getClientSocket(), " MODE " + this->channelName + " " + mode + "\r\n");
+		channelModes++;
 	}
 }
 
@@ -61,12 +55,11 @@ void Channel::writeClientList(int sendFd, std::map<int, User> &userList){
 
     while(it != this->clientList.end()){
         user = userList.find(*it);
-        it++;
 		if(it != this->clientList.end())
         	sendMsg += "User Nick: " + user->second.getName(USER_NICK_NAME) + "\n";
 		else
         	sendMsg += "User Nick: " + user->second.getName(USER_NICK_NAME);
     }
 	sendMsg += "\r\n";
-    send(sendFd, sendMsg.c_str(), sendMsg.length(), 0);
+    messageSend(sendFd, sendMsg);
 }

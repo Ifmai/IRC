@@ -13,16 +13,16 @@ void commandMSG(std::string &token, std::istringstream &iss, User &client, std::
 			if(ch->checkClient(client.getClientSocket()))
 				ch->sendMsgChannel(msg, client.getClientSocket());
 			else
-        		errMesageSend(client.getClientSocket(), ERR_CANNOTSENDTOCHAN(ch->getName()));
+        		messageSend(client.getClientSocket(), ERR_CANNOTSENDTOCHAN(ch->getName()));
 		}
 		else{ // User to User
 			std::map<int, User>::iterator sendClient = searchNick(target, clientList);
 			if(sendClient != clientList.end())
-				send(sendClient->second.getClientSocket(), msg.c_str(), msg.length(), 0);
+				messageSend(sendClient->second.getClientSocket(), msg);
 			else if (token == "PRIVMSG")
-        		errMesageSend(client.getClientSocket(), ERR_NOSUCHNICK(target));
+        		messageSend(client.getClientSocket(), ERR_NOSUCHNICK(target));
 		}
 	}
 	else if (token == "PRIVMSG")
-        errMesageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }

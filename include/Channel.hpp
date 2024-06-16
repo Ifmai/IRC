@@ -8,6 +8,7 @@
 	#include <sys/socket.h>
 	#include "Messages.hpp"
 
+	void messageSend(int targetFd, std::string msg);
 
     class Channel{
         private:

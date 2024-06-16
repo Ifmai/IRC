@@ -2,7 +2,7 @@
 
 static bool invalidNick(std::string input, int clientFd){
 	if(input.find(':') != std::string::npos || input.find(' ') != std::string::npos || input.at(0) == '#' || isnumber(input.at(0))){
-		errMesageSend(clientFd, ERR_ERRONEUSNICKNAME(input));
+		messageSend(clientFd, ERR_ERRONEUSNICKNAME(input));
 		return true;
 	}
 	else
@@ -14,10 +14,10 @@ static bool nickUnique(std::string input, int clientFD, std::map<int, User> &cli
 	while(it != clientList.end()){
 		if(it->second.getName(USER_NICK_NAME) == input){
 			if(clientFD == it->first){
-        		errMesageSend(clientFD, ERR_NICKNAMEINUSE(input) + " :This nickname is used by you.\r\n");
+        		messageSend(clientFD, ERR_NICKNAMEINUSE(input) + " :This nickname is used by you.\r\n");
 				return false;
 			}
-			errMesageSend(clientFD, ERR_NICKNAMEINUSE(input) + " : Nickname is already in use.\r\n");
+			messageSend(clientFD, ERR_NICKNAMEINUSE(input) + " : Nickname is already in use.\r\n");
 			return false;
 		}
 		it++;
@@ -37,6 +37,6 @@ void commandNick(std::istringstream &iss, User &client, std::map<int, User> &cli
 		client.setName(USER_NICK_NAME, nick);
 	}else{
 		std::string token = "NICK";
-        errMesageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 	}
 }

@@ -20,7 +20,7 @@ void commandQuit(std::istringstream &iss, User &user, std::list<Channel> &channe
         }
         ch++;
     }
-    send(user.getClientSocket(), quitmsg.c_str(), quitmsg.length(), 0);
+    messageSend(user.getClientSocket(), quitmsg);
     close(user.getClientSocket());
     FD_CLR(user.getClientSocket(), &data->masterFds);
     userList.erase(userList.find(user.getClientSocket()));

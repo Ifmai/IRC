@@ -18,28 +18,27 @@ void commandKick(std::istringstream &iss, std::list<Channel> &channelList, User 
                             kickMessage = DEFAULT_KICK_MSG(channel, user.getName(USER_NICK_NAME));
                         else
                             kickedUserName = " .Kicked By. " + user.getName(USER_NICK_NAME) + "\r\n";
-                        //std::string allmsg = user.getIDENTITY() + " KICK " + channel + " " + kickedUserName + "\r\n";
-                        send(kickedUser->second.getClientSocket(), kickMessage.c_str(), kickMessage.length(), 0);
+                        messageSend(kickedUser->second.getClientSocket(), kickMessage);
                         ch->sendAllMsg(user.getIDENTITY() + " KICK " + channel + " " + kickedUserName + "\r\n");
                         ch->removeClientList(kickedUser->second.getClientSocket());
                         if(ch->checkClientMode(kickedUser->second.getClientSocket()))
                             ch->removeModerator(kickedUser->second.getClientSocket());
                     }else
-                        errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(channel));
+                        messageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(channel));
                 }else{
                     if(!ch->checkClient(user.getClientSocket()))
-                        errMesageSend(user.getClientSocket(), ERR_USERNOTINCHANNEL(user.getName(USER_NICK_NAME), channel));
+                        messageSend(user.getClientSocket(), ERR_USERNOTINCHANNEL(user.getName(USER_NICK_NAME), channel));
                     else
-                        errMesageSend(user.getClientSocket(), ERR_USERNOTINCHANNEL(kickedUserName, channel));
+                        messageSend(user.getClientSocket(), ERR_USERNOTINCHANNEL(kickedUserName, channel));
                 }
             }else{
                 std::string token = "KICK";
-                errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+                messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
             }
         }else
-            errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
+            messageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(channel));
     }else{
         std::string token = "KICK";
-        errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+        messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
     }
 }

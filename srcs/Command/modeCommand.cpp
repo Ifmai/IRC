@@ -27,7 +27,7 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 								if(mode == "+k"){
 									iss >> modeParemeters;
 									if(modeParemeters.empty()){
-										errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
+										messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
 										return ;
 									}
 									ch->setKeyExist(true);
@@ -42,7 +42,7 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 							else if(mode.at(1) == 'o'){
 								iss >> modeParemeters;
 								if(modeParemeters.empty()){
-									errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
+									messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
 									return ;
 								}
 								else
@@ -51,30 +51,31 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 									ch->addModerator(targetUser->second.getClientSocket());
 								else{
 									ch->removeModerator(targetUser->second.getClientSocket());
-									if(ch->getClientListSize() > 0)
-										ch->ensureModeratorPresence(userList);
-									else
-										channelList.erase(ch); // Delete Channel.
+									ch->ensureModeratorPresence(userList);
 								}
 								ch->sendAllMsg(userInfo + "MODE " + target + " " + mode + (modeParemeters.empty() ? "" : (" " + modeParemeters)) + "\r\n");
 							}
-							if(mode.at(0) == '+')
+							if(mode.at(0) == '+' && mode.at(1) != 'o')
 								ch->addChannelMode(mode);
 							else if (mode.at(0) == '-'){
 								mode[0] = '+';
 								ch->removeChannelMode(mode);
+								if(ch->getClientListSize() > 0)
+									ch->ensureModeratorPresence(userList);
+								else
+									channelList.erase(ch); // Delete Channel.
 							}
 					}else
-						errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
+						messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS_MODE_VALUE(token));
 				}else{
 					if(!ch->checkClient(user.getClientSocket()))
-						errMesageSend(user.getClientSocket(), ERR_NOTONCHANNEL(target));
+						messageSend(user.getClientSocket(), ERR_NOTONCHANNEL(target));
 					else
-						errMesageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(target));
+						messageSend(user.getClientSocket(), ERR_CHANOPRIVSNEEDED(target));
 				}
 			}else
-				errMesageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(target));
+				messageSend(user.getClientSocket(), ERR_NOSUCHCHANNEL(target));
 		}
 	}else
-		errMesageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
+		messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }
