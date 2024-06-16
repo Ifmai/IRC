@@ -16,9 +16,8 @@ void commandTopic(std::istringstream &iss, std::list<Channel> &channelList, User
             			ch->sendAllMsg(topic);
 					}
 					else if(topic.length() > 1){
-/* 						if(topic.at(0) == ':')
-							topic.erase(0); */
 						ch->setTopic(topic);
+						ch->setChangerTopic(user.getName(USER_NICK_NAME));
 						std::string msgTopic = RPL_TOPIC(user.getName(USER_NICK_NAME), channel, topic);
 						ch->sendAllMsg(msgTopic);
 					}

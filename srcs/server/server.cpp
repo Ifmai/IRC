@@ -62,3 +62,8 @@ void ircStart(t_IRC_DATA *data){
 		}
 	}
 }
+
+//"MOD #CHANNEL FİLAN GELİYOR BUNDAN KAYNAKLI ERROR FIRLIYOR BUNU DÜZELTMEM GEREKİYOR.büyük ihtimalle kullanıcı liste mesajını bu komud geldiğinde göndericem
+//join de göndermek yerine irc benden istediğinde göndericem."
+
+//"List komudu çalışmıyor."

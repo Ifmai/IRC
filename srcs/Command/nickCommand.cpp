@@ -34,9 +34,6 @@ void commandNick(std::istringstream &iss, User &client, std::map<int, User> &cli
 			return ;
 		if(!nickUnique(nick, client.getClientSocket(), clientList))
 			return ;
-/* 		if(!client.getName(USER_NICK_NAME).empty()){ // eğer nick varsa ve değiştiriyorsa
-			std::string changeMSG = client.getName(USER_NICK_NAME) + " "
-		} */
 		client.setName(USER_NICK_NAME, nick);
 	}else{
 		std::string token = "NICK";

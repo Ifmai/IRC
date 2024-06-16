@@ -55,8 +55,6 @@ void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User 
 								}
 								ch->sendAllMsg(userInfo + "MODE " + target + " " + mode + (modeParemeters.empty() ? "" : (" " + modeParemeters)) + "\r\n");
 							}
-/* 							else if(mode.at(1) == 't')
-								ch->sendAllMsg(userInfo + "MODE " + target + " " + mode + "\r\n"); */
 							if(mode.at(0) == '+')
 								ch->addChannelMode(mode);
 							else if (mode.at(0) == '-'){

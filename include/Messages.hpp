@@ -19,7 +19,7 @@
 	#define ERR_NOSUCHCHANNEL(channel) (": 403 " + channel + " :No such channel\r\n")
 	#define ERR_INVALIDCHANNELNAME(channel) (": 403 " + channel + " :Channel names must start with '#' or '&'\r\n")
 	#define RPL_NOTOPIC(channel) (": 331 " + channel + " :No topic is set\r\n")
-	#define RPL_TOPIC(nick, channel, topic) (": 332 " + nick + " " + channel + " : " + topic + "\r\n")
+	#define RPL_TOPIC(nick, channel, topic) (": 332 " + nick + " " + channel + " :" + topic + "\r\n")
 	#define ERR_USERNOTINCHANNEL(nick, channel) (": 441 " + nick + " " + channel + " :They aren't on that channel\r\n")
 	#define ERR_CHANOPRIVSNEEDED(channel) (": 482 " + channel + " :You're not channel operator\r\n")
 	#define RPL_INVITING(nick, channel) (": 341 " + nick + " " + channel + " :Invite is successful\r\n")
