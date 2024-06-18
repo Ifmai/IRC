@@ -1,6 +1,6 @@
 CC = c++ -std=c++98
 FLAG = -Wall -Wextra -Werror 
-Name = IRC
+Name = ircserv
 SRC = ./srcs/main.cpp \
 	  ./srcs/server/server.cpp \
 	  ./srcs/server/newUserHandle.cpp \

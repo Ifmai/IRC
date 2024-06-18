@@ -1,7 +1,5 @@
 #include "../../include/IRC.hpp"
 
-
-
 void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList){
 	close(userFD);
 	FD_CLR(userFD, &data->masterFds);
@@ -15,7 +13,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 		else
 			perror("recv");
 		handleClientQuit(data, userFD, clientList);
-	}
+	}               
 	else{
 		data->buff[data->nbytes] = '\0';
 		std::cout << "Client : " << userFD << " -> request : \"" << data->buff << "\"" << std::endl;
@@ -55,6 +53,8 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandPart(iss, client, channelList, clientList);
 			else if(client.getIsAuth() && token == "QUIT")
 				commandQuit(iss, client, channelList, clientList, data);
+			else
+				messageSend(client.getClientSocket(), client.getIDENTITY() + "NOT COMMAND FOUND.\r\n");
 		}
 	}
 }
