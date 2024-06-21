@@ -4,6 +4,8 @@ void commandPass(std::istringstream &iss, User &client, std::map<int, User> &cli
 	std::string pass;
 	if(iss >> pass && client.getPassword().empty()){
 		std::cout << "|" << pass << "|" << std::endl;
+		if(pass.at(0) == ':')
+			pass.erase(0, 1);
 		if(pass == data->password){
 			client.setPassword(pass);
 			std::cout << "Client |" << client.getPassword() << "|" << std::endl;

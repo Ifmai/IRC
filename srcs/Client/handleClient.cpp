@@ -16,11 +16,14 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 	}               
 	else{
 		data->buff[data->nbytes] = '\0';
-		std::cout << "Client : " << userFD << " -> request : \"" << data->buff << "\"" << std::endl;
+		printf("%s\n", data->buff);
+		//std::cout << "Client : " << userFD << " -> request : \"" << data->buff << "\"" << std::endl;
 		std::istringstream iss(data->buff);
 		std::string token;
 
 		while(iss >> token){
+			if(token == "CAP")
+				commandCap(iss, client);
 			if(token == "PASS")
 				commandPass(iss, client, clientList, data);
 			else if(token == "NICK")
@@ -28,12 +31,16 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 			else if(token == "USER")
 				commandUser(iss, client);
 			if(!client.getPassword().empty() && !client.getName(USER_NAME).empty() && !client.getName(USER_NICK_NAME).empty() && !client.getIsAuth()){
+				std::string loginCommand = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo());
+        		messageSend(client.getClientSocket(), loginCommand);
 				client.setIsAuth(true);
-				messageSend(client.getClientSocket(), LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo()));
+				continue;
+				//messageSend(client.getClientSocket(), LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo()));
 			}
-			else if(token == "PING" && client.getIsAuth()){
-				std::string msg = data->buff;
+			else if(token == "PING"){
+				std::string msg = fullMsg(iss);
 				commandPing(msg, client);
+				continue;
 			}
 			if(client.getIsAuth() && token == "PRIVMSG")
 				commandMSG(token, iss, client,clientList, channelList);
@@ -53,8 +60,10 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandPart(iss, client, channelList, clientList);
 			else if(client.getIsAuth() && token == "QUIT")
 				commandQuit(iss, client, channelList, clientList, data);
-			else
+			else if(client.getIsAuth()){
+				std::cout << "GELEN TOKEN : " << token << std::endl;
 				messageSend(client.getClientSocket(), client.getIDENTITY() + "NOT COMMAND FOUND.\r\n");
+			}
 		}
 	}
 }

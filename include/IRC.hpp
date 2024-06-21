@@ -60,7 +60,7 @@
 		void commandMode(std::istringstream &iss, std::list<Channel> &channelList, User &user, std::map<int, User> &userList);
 		void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channelList, std::map<int, User> &userList);
 		void commandQuit(std::istringstream &iss, User &user, std::list<Channel> &channelList, std::map<int, User> &userList, t_IRC_DATA *data);
-	
+		void commandCap(std::istringstream& iss, User& user);
 	//Comand Utils
 	std::string fullMsg(std::istringstream &iss);
 	void messageSend(int targetFd, std::string msg);
