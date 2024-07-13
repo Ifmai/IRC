@@ -24,12 +24,20 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 		while(iss >> token){
 			if(token == "CAP")
 				commandCap(iss, client);
-			if(token == "PASS")
+			else if(token == "PASS")
 				commandPass(iss, client, clientList, data);
 			else if(token == "NICK")
 				commandNick(iss, client, clientList);
 			else if(token == "USER")
 				commandUser(iss, client);
+			else if(client.getIsAuth() == false){
+				printf("adasdas asdasd ß %s\n",token.c_str());
+				if((token != "PRIVMSG" && token != "JOIN" && token != "TOPIC" && token != "KICK" && token != "INVITE" && token != "LIST" && token != "MODE" && token != "PART" && token != "QUIT"))
+					messageSend(client.getClientSocket(), client.getIDENTITY() + "COMMAND NOT FOUND.\r\n");
+				else
+					messageSend(client.getClientSocket(), client.getIDENTITY() + "PLEASE LOGIN FIRST.\r\n");
+				while(iss >> token);
+			}
 			if(!client.getPassword().empty() && !client.getName(USER_NAME).empty() && !client.getName(USER_NICK_NAME).empty() && !client.getIsAuth()){
 				std::string loginCommand = LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo());
         		messageSend(client.getClientSocket(), loginCommand);
@@ -60,10 +68,8 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandPart(iss, client, channelList, clientList);
 			else if(client.getIsAuth() && token == "QUIT")
 				commandQuit(iss, client, channelList, clientList, data);
-			else if(client.getIsAuth()){
-				std::cout << "GELEN TOKEN : " << token << std::endl;
-				messageSend(client.getClientSocket(), client.getIDENTITY() + "NOT COMMAND FOUND.\r\n");
-			}
+			else if(client.getIsAuth())
+				messageSend(client.getClientSocket(), client.getIDENTITY() + "COMMAND NOT FOUND.\r\n");
 		}
 	}
 }

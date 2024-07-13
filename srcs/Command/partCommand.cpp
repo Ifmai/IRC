@@ -11,7 +11,7 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
         ch = getChannel(channelList, channel);
         if(ch != channelList.end()){
             if(ch->checkClient(user.getClientSocket())){
-                iss >> reason;
+                reason = fullMsg(iss);
                 ch->sendAllMsg(user.getIDENTITY() + " PART " + channel + " " +(reason.empty() ? "" : reason) + "\r\n");
                 ch->removeClientList(user.getClientSocket());
                 if(ch->checkClientMode(user.getClientSocket())){
@@ -28,5 +28,3 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
     }else
         messageSend(user.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }
-
-//"CHANNELDA KİMSE KALMAMIŞSA KANALI SİL."
