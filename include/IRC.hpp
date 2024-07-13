@@ -24,7 +24,6 @@
 		struct sockaddr_in	serverAddr; // server adress info.
 		struct sockaddr_in	remoteAddr; // new user address info.
 		char				buff[BUFFER_SIZE]; // recv buffer string.
-		char				mainbuffer[1024][BUFFER_SIZE];//main buffer
 		std::string			password; // connection password.
 		socklen_t			addrLen; // new user addr len.
 		int					yes; // for setsockopt()SO_REUSEADDR.
@@ -33,7 +32,8 @@
 		int					nbytes; //recv buffer string len.
 		int					serverSocket; // server socket.
 		int					newClientSocket; // new user.
-
+		std::map<int, std::string> message;
+		std::map<int, std::string>::iterator check;
 	}						t_IRC_DATA;
 
 	//Arguman Checking
