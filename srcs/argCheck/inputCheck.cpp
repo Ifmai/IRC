@@ -8,7 +8,7 @@ bool portCheck(t_IRC_DATA *data, std::string port){
 	}
 	data->port = std::stoi(port);
 	if(data->port > 65535 || data->port < 1024){
-		std::cerr << "Port : 1024 beetween 65535" << std::endl;
+		std::cerr << "Port : beetween 1024 and 65535" << std::endl;
 		return false;
 	}
 	return true;

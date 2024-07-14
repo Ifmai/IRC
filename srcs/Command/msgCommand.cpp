@@ -10,8 +10,11 @@ void commandMSG(std::string &token, std::istringstream &iss, User &client, std::
 		msg = client.getIDENTITY() + token + " " + target + " :" + sendMsg + "\r\n";
 		if(target.at(0) == '#' || target.at(0) == '&'){ // Channel
 			std::list<Channel>::iterator ch = getChannel(channelList, target);
-			if(ch->checkClient(client.getClientSocket()))
+			if(ch->checkClient(client.getClientSocket())){
 				ch->sendMsgChannel(msg, client.getClientSocket());
+				if(token == "NOTICE")
+					messageSend(client.getClientSocket(), msg);
+			}
 			else
         		messageSend(client.getClientSocket(), ERR_CANNOTSENDTOCHAN(ch->getName()));
 		}
@@ -26,3 +29,5 @@ void commandMSG(std::string &token, std::istringstream &iss, User &client, std::
 	else if (token == "PRIVMSG")
         messageSend(client.getClientSocket(), ERR_NEEDMOREPARAMS(token));
 }
+
+//PASS 1 NICK alp123 USER alp123 0 * :asdasds

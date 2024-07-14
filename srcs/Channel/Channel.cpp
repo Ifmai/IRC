@@ -83,7 +83,7 @@ std::string Channel::getChangerTopic(){
     return this->changerTopic;
 }
 
-int Channel::getClientListSize(){
+int Channel::getClientListSize() const{
     return this->clientList.size();
 }
 

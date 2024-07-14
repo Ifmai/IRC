@@ -49,7 +49,7 @@
             std::string getKey();
             std::string getTopic();
             std::string getChangerTopic();
-            int         getClientListSize();
+            int         getClientListSize() const;
 
 
             void        setChangerTopic(std::string nick);

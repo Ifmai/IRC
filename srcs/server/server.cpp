@@ -32,16 +32,6 @@ static void serverConfig(t_IRC_DATA *data){
 	std::cout << "----------------" << std::endl;
 }
 
-void	printList(std::map<int, User> list){
-	std::map<int, User>::iterator it = list.begin();
-	while(it != list.end()){
-		std::string hostInfo = it->second.gethostInfo();
-		std::cout << "HOST INFO" << hostInfo << std::endl;
-		std::cout << "["<< it->first << "] : " << it->second.getClientSocket() << " : hostname : " << it->second.gethostInfo() << it->second.getName(USER_NAME) << std::endl;
-		it++;
-	}
-}
-
 void ircStart(t_IRC_DATA *data){
 	serverConfig(data);
 	std::map<int, User> clientList; // pair 1998 de çıkarılmıştır 98 standardında geçerlidir.
@@ -62,8 +52,3 @@ void ircStart(t_IRC_DATA *data){
 		}
 	}
 }
-
-//"Kontrollerimden çoğu test geçti şuan sadece bi notice yok."
-//"Belki keyfime göre ban listeside ekleyebilirim."
-//"Gelen Mode #also b sinimiri bozuyor."
-//NOTICE DE LAG CHECK GELMIYOR.

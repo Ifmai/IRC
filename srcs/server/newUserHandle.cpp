@@ -10,7 +10,6 @@ void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList){
 		if(data->newClientSocket > data->fdMax){
 			data->fdMax = data->newClientSocket;
 		}
-		printf("selectserver: new connection from %s on "
-			"socket %d\n", inet_ntoa(data->remoteAddr.sin_addr), data->newClientSocket);
+		std::cout << "selectserver: new connection from " << inet_ntoa(data->remoteAddr.sin_addr) << " on socket " << data->newClientSocket << std::endl;
 	}
 }

@@ -3,13 +3,10 @@
 void commandPass(std::istringstream &iss, User &client, std::map<int, User> &clientList, t_IRC_DATA *data){
 	std::string pass;
 	if(iss >> pass && client.getPassword().empty()){
-		std::cout << "|" << pass << "|" << std::endl;
 		if(pass.at(0) == ':')
 			pass.erase(0, 1);
-		if(pass == data->password){
+ 		if(pass == data->password)
 			client.setPassword(pass);
-			std::cout << "Client |" << client.getPassword() << "|" << std::endl;
-		}
 		else{
         	messageSend(client.getClientSocket(), ERR_PASSWDMISMATCH());
 			handleClientQuit(data, client.getClientSocket(), clientList);

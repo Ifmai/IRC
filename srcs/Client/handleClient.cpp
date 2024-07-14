@@ -9,17 +9,10 @@ void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientL
 static bool deleteEof(std::string &input, int userFD, t_IRC_DATA *data){
 	if(input.at(data->nbytes - 1) != '\n'){
 		data->check = data->message.find(userFD);
-		if(data->check != data->message.end()){
-			std::cout << "eklenmeden önce msg : " << data->check->second << std::endl;
+		if(data->check != data->message.end())
 			data->check->second += input.data();
-			std::cout << "eklendikten sonra msg : " << data->check->second << std::endl;
-		}
-		else{
+		else
 			data->message.insert(std::pair<int, std::string>(userFD, input));
-			data->check = data->message.find(userFD);
-			if(data->check != data->message.end())
-				std::cout << "ilk ekelme sonra msg : " << data->check->second << std::endl;
-		}
 		return true;
 	}
 	else{
@@ -34,7 +27,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 	std::istringstream iss;
 	if((data->nbytes = recv(userFD, data->buff,sizeof(data->buff), 0)) <= 0){
 		if(data->nbytes == 0)
-			printf("select server: socket %d hung up\n", userFD);
+			std::cout << "select server: socket " << userFD  << " hung up" << std::endl;
 		else
 			perror("recv");
 		handleClientQuit(data, userFD, clientList);
@@ -42,7 +35,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 	else{
 		data->buff[data->nbytes] = '\0';
 		std::string recv_msg(data->buff);
-		printf("%s\n", data->buff);
+		std::cout << recv_msg << std::endl;
 		if(!deleteEof(recv_msg, userFD, data)){
 			data->check = data->message.find(userFD);
 			if(data->check != data->message.end()){
@@ -62,7 +55,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandPass(iss, client, clientList, data);
 			else if(token == "NICK")
 				commandNick(iss, client, clientList);
-			else if(token == "USER")
+			else if(token == "USER") // toplu bir anlık girşi checkle
 				commandUser(iss, client);
 			else if(token == "PING"){
 				std::string msg = fullMsg(iss);
@@ -70,7 +63,6 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				continue;
 			}
 			else if(client.getIsAuth() == false){
-				printf("Gelen Sorunlu Metin: %s\n",token.c_str());
 				if((token != "PRIVMSG" && token != "JOIN" && token != "TOPIC" && token != "KICK" && token != "INVITE" && token != "LIST" && token != "MODE" && token != "PART" && token != "QUIT"))
 					messageSend(client.getClientSocket(), client.getIDENTITY() + "COMMAND 1NOT FOUND.\r\n");
 				else
@@ -103,8 +95,9 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandPart(iss, client, channelList, clientList);
 			else if(client.getIsAuth() && token == "QUIT")
 				commandQuit(iss, client, channelList, clientList, data);
+			else if(client.getIsAuth() && token == 	"NOTICE")
+				commandMSG(token, iss, client,clientList, channelList);
 			else if(client.getIsAuth()){
-				printf("IS AUTH TRUE Gelen Sorunlu Metin: %s\n",token.c_str());
 				messageSend(client.getClientSocket(), client.getIDENTITY() + "COMMAND NOT FOUND.\r\n");
 			}
 		}
