@@ -29,7 +29,7 @@
 
 			int 		getClientSocket();
 			std::string gethostInfo();
-			std::string getName(int nameType); //Name Type Defined in User.hpp top side.
+			std::string getName(int nameType);
 			std::string	getPassword();
 			bool		getIsAuth();
 			std::string getIDENTITY();

@@ -19,19 +19,19 @@
 
 	typedef struct s_IRC
 	{
-		fd_set				readFds; // select for while.
-		fd_set				masterFds; // all user in.
-		struct sockaddr_in	serverAddr; // server adress info.
-		struct sockaddr_in	remoteAddr; // new user address info.
-		char				buff[BUFFER_SIZE]; // recv buffer string.
-		std::string			password; // connection password.
-		socklen_t			addrLen; // new user addr len.
-		int					yes; // for setsockopt()SO_REUSEADDR.
-		int					port; // connection port.
-		int 				fdMax; // select max fd number.
-		int					nbytes; //recv buffer string len.
-		int					serverSocket; // server socket.
-		int					newClientSocket; // new user.
+		fd_set				readFds; 
+		fd_set				masterFds; 
+		struct sockaddr_in	serverAddr;
+		struct sockaddr_in	remoteAddr;
+		char				buff[BUFFER_SIZE];
+		std::string			password;
+		socklen_t			addrLen; 
+		int					yes; 
+		int					port;
+		int 				fdMax;
+		int					nbytes;
+		int					serverSocket;
+		int					newClientSocket;
 		std::map<int, std::string> message;
 		std::map<int, std::string>::iterator check;
 	}						t_IRC_DATA;
@@ -62,6 +62,7 @@
 		void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channelList, std::map<int, User> &userList);
 		void commandQuit(std::istringstream &iss, User &user, std::list<Channel> &channelList, std::map<int, User> &userList, t_IRC_DATA *data);
 		void commandCap(std::istringstream& iss, User& user);
+	
 	//Comand Utils
 	std::string fullMsg(std::istringstream &iss);
 	void messageSend(int targetFd, std::string msg);

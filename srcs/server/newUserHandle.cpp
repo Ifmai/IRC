@@ -5,8 +5,8 @@ void newUserAdd(t_IRC_DATA *data, std::map<int, User> &clientList){
 	if((data->newClientSocket = accept(data->serverSocket, (struct sockaddr *)&data->remoteAddr, &data->addrLen)) == -1)
 		perror("accept");
 	else{
-		FD_SET(data->newClientSocket, &data->masterFds); // ana listeye ekle
-		clientList.insert(std::pair<int, User>(data->newClientSocket, User(data->newClientSocket)));//map'ekleme
+		FD_SET(data->newClientSocket, &data->masterFds);
+		clientList.insert(std::pair<int, User>(data->newClientSocket, User(data->newClientSocket)));
 		if(data->newClientSocket > data->fdMax){
 			data->fdMax = data->newClientSocket;
 		}

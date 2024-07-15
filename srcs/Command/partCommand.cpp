@@ -19,7 +19,7 @@ void commandPart(std::istringstream &iss, User &user, std::list<Channel> &channe
                     if(ch->getClientListSize() > 0)
                         ch->ensureModeratorPresence(userList);
                     else
-                        channelList.erase(ch); // Delete Channel.
+                        channelList.erase(ch); 
                 }
             }else
                 messageSend(user.getClientSocket(), ERR_NOTONCHANNEL(channel));

@@ -32,7 +32,7 @@ static void modeChannelOp(std::string &targetName, const char sign, const std::s
 			if(ch->getClientListSize() > 0)
 				ch->ensureModeratorPresence(userList);
 			else
-				channelList.erase(ch); // Delete Channel.
+				channelList.erase(ch); 
 		}
 		ch->sendAllMsg(user.getIDENTITY() + "MODE " + ch->getName() + " " + sign + "o" + (targetName.empty() ? "" : (" " + targetName)) + "\r\n");
 	}else

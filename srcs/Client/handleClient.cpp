@@ -3,7 +3,10 @@
 void handleClientQuit(t_IRC_DATA *data, int userFD, std::map<int, User> &clientList){
 	close(userFD);
 	FD_CLR(userFD, &data->masterFds);
-	clientList.erase(clientList.find(userFD));
+	data->check = data->message.find(userFD);
+	if(data->check != data->message.end())
+		data->message.erase(data->check);
+	clientList.erase(clientList.find(userFD));	
 }
 
 static bool deleteEof(std::string &input, int userFD, t_IRC_DATA *data){
@@ -45,7 +48,6 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 			else
 				iss.str(recv_msg);
 		}
-		//std::cout << "Client : " << userFD << " -> request : \"" << data->buff << "\"" << std::endl;
 		std::string token;
 
 		while(iss >> token){
@@ -55,7 +57,7 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 				commandPass(iss, client, clientList, data);
 			else if(token == "NICK")
 				commandNick(iss, client, clientList);
-			else if(token == "USER") // toplu bir anlık girşi checkle
+			else if(token == "USER")
 				commandUser(iss, client);
 			else if(token == "PING"){
 				std::string msg = fullMsg(iss);
@@ -74,7 +76,6 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
         		messageSend(client.getClientSocket(), loginCommand);
 				client.setIsAuth(true);
 				continue;
-				//messageSend(client.getClientSocket(), LOGIN(client.getName(USER_NICK_NAME), client.getName(USER_NAME), client.gethostInfo()));
 			}
 
 			if(client.getIsAuth() && token == "PRIVMSG")
@@ -103,10 +104,3 @@ void handleClient(t_IRC_DATA *data, int userFD, User &client, std::map<int, User
 		}
 	}
 }
-
-/*
-PASS asd USER alp1 NICK alp
-PASS asd USER berna1 NICK berna
-PRIVMSG berna alp <3
-PRIVMSG alp berna <3
-*/

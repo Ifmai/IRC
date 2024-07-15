@@ -12,7 +12,7 @@ void commandCap(std::istringstream& iss, User& user){
         std::string capLsCommand = "CAP * LS :multi-prefix sasl\r\n";
 		messageSend(user.getClientSocket(), capLsCommand);
     }
-    else if (capParameters == "REQ") {// CAP REQ :multi-prefix
+    else if (capParameters == "REQ") {
         std::string reqParameter;
         iss >> reqParameter;
         if (reqParameter == ":multi-prefix") {
